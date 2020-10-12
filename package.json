@@ -1,6 +1,6 @@
 {
   "name": "24multiservicios",
-  "version": "1.0.26r",
+  "version": "1.0.0r",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

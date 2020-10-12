@@ -140,9 +140,9 @@ export class ValidatedDialogComponent implements OnInit {
     this.loading.next(true)
     this.validatedFormGroup.markAsPending();
     this.validatedFormGroup.disable()
-    const requestRef = this.af.firestore.collection(`/db/minimarketBoom/buys`).doc(this.data.item.buyId);
-    const requestProductRef = this.af.firestore.collection(`/db/minimarketBoom/buys/${this.data.item.buyId}/buyRequestedProducts`).doc(this.data.item.id);
-    const ref = this.af.firestore.collection(`/db/minimarketBoom/productsList`).doc(this.data.item.id);
+    const requestRef = this.af.firestore.collection(`/db/24multiservicios/buys`).doc(this.data.item.buyId);
+    const requestProductRef = this.af.firestore.collection(`/db/24multiservicios/buys/${this.data.item.buyId}/buyRequestedProducts`).doc(this.data.item.id);
+    const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(this.data.item.id);
 
     combineLatest(
       this.auth.user$,

@@ -128,7 +128,7 @@ export class CreateCategoryComponent implements OnInit {
   }
 
   createBanner(categorie, photo?: File) {
-    const payRef: DocumentReference = this.afs.firestore.collection(`/db/minimarketBoom/config/`).doc('generalConfig');
+    const payRef: DocumentReference = this.afs.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
 
     categorie.photoURL = null;
 
@@ -164,7 +164,7 @@ export class CreateCategoryComponent implements OnInit {
   }
 
   editBanner(category, photo?: File) {
-    const payRef: DocumentReference = this.afs.firestore.collection(`/db/minimarketBoom/config/`).doc('generalConfig');
+    const payRef: DocumentReference = this.afs.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
 
     if (photo) {
       concat(

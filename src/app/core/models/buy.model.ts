@@ -2,7 +2,7 @@ import { Product } from './product.model'
 import { Unit } from './unit.model'
 import { User } from './user.model'
 
-export const buysCollRef = `db/minimarketBoom/buys`
+export const buysCollRef = `db/24multiservicios/buys`
 
 export interface Buy {
   id: string;
@@ -32,7 +32,7 @@ export interface Buy {
   editedBy: User;
 }
 
-export const buysProductsCollRef = `db/minimarketBoom/buys/` + `buyId` + `/buyRequestedProducts/`
+export const buysProductsCollRef = `db/24multiservicios/buys/` + `buyId` + `/buyRequestedProducts/`
 //We should include this on small documents
 export interface BuyRequestedProduct {               //How many products should there be
   id: string;             //Should be same as product id

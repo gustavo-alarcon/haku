@@ -1,10 +1,10 @@
-import { Sale, saleStatusOptions } from './../models/sale.model';
+import { Sale } from './../models/sale.model';
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, DocumentReference, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentReference, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Product } from '../models/product.model';
-import { shareReplay, map, takeLast, switchMap, take, mapTo, tap } from 'rxjs/operators';
+import { shareReplay, map, takeLast, switchMap, take, mapTo } from 'rxjs/operators';
 import { GeneralConfig } from '../models/generalConfig.model';
-import { Observable, concat, of, interval, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, concat, of, interval, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Recipe } from '../models/recipe.model';
@@ -13,14 +13,13 @@ import { Buy, BuyRequestedProduct } from '../models/buy.model';
 import * as firebase from 'firebase'
 import { Package } from '../models/package.model';
 import { Ticket } from '../models/ticket.model';
-import { title } from 'process';
 import { StoreSale } from '../models/storeSale.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
-  public version: string = 'V1.0.26r';
+  public version: string = 'V1.0.0r';
   public isOpen: boolean = false;
   public isAdmin: boolean = false;
 
@@ -57,13 +56,13 @@ export class DatabaseService {
     this.opening$ = this.getOpening();
   }
 
-  productsListRef = `db/minimarketBoom/productsList`;
-  packagesListRef = `db/minimarketBoom/packagesList`;
-  recipesRef = `db/minimarketBoom/recipes`;
-  buysRef = `db/minimarketBoom/buys`;
-  salesRef = `db/minimarketBoom/sales`;
-  storeSalesRef = `db/minimarketBoom/storeSales`;
-  configRef = `db/minimarketBoom/config`;
+  productsListRef = `db/24multiservicios/productsList`;
+  packagesListRef = `db/24multiservicios/packagesList`;
+  recipesRef = `db/24multiservicios/recipes`;
+  buysRef = `db/24multiservicios/buys`;
+  salesRef = `db/24multiservicios/sales`;
+  storeSalesRef = `db/24multiservicios/storeSales`;
+  configRef = `db/24multiservicios/config`;
   generalConfigDoc = this.afs.collection(this.configRef).doc<GeneralConfig>('generalConfig');
 
   changeTitle(newTitle: string): void {
@@ -522,7 +521,7 @@ export class DatabaseService {
   }
 
   getSalesUser(user: string): Observable<Sale[]> {
-    return this.afs.collection<Sale>(`/db/minimarketBoom/sales`,
+    return this.afs.collection<Sale>(`/db/24multiservicios/sales`,
       ref => ref.where("user.uid", "==", user)).valueChanges()
   }
 
@@ -691,7 +690,7 @@ export class DatabaseService {
 
   //configuracion
   getDistricts(): Observable<any> {
-    return this.afs.collection(`/db/minimarketBoom/config`).doc('generalConfig').valueChanges()
+    return this.afs.collection(`/db/24multiservicios/config`).doc('generalConfig').valueChanges()
       .pipe(
         map(res => res['districts']),
         map(res => {
@@ -713,7 +712,7 @@ export class DatabaseService {
   }
 
   getPayments(): Observable<any> {
-    return this.afs.collection(`/db/minimarketBoom/config`).doc('generalConfig').valueChanges()
+    return this.afs.collection(`/db/24multiservicios/config`).doc('generalConfig').valueChanges()
       .pipe(
         map(res => res['payments']),
         map(res => {

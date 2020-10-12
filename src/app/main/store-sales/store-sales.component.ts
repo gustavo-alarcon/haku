@@ -176,7 +176,7 @@ export class StoreSalesComponent implements OnInit {
   retry(ticket: StoreSale): void {
     this.loading.next(true);
 
-    let productListRef = this.af.firestore.collection('db/minimarketBoom/productsList');
+    let productListRef = this.af.firestore.collection('db/24multiservicios/productsList');
 
     let transactionsArray = [];
 
@@ -225,7 +225,7 @@ export class StoreSalesComponent implements OnInit {
           }
         });
 
-        let saleDocRef = this.af.firestore.collection('/db/minimarketBoom/storeSales').doc(ticket.id);
+        let saleDocRef = this.af.firestore.collection('/db/24multiservicios/storeSales').doc(ticket.id);
 
         let updateData = {
           status: failedItems.length > 0 ? 'Fallido' : 'Pagado',
@@ -264,7 +264,7 @@ export class StoreSalesComponent implements OnInit {
   cancel(ticket: StoreSale): void {
     this.loading.next(true);
 
-    let productListRef = this.af.firestore.collection('db/minimarketBoom/productsList');
+    let productListRef = this.af.firestore.collection('db/24multiservicios/productsList');
 
     let transactionsArray = [];
 
@@ -297,7 +297,7 @@ export class StoreSalesComponent implements OnInit {
     Promise.all(transactionsArray)
       .then(res => {
 
-        let saleDocRef = this.af.firestore.collection('/db/minimarketBoom/storeSales').doc(ticket.id);
+        let saleDocRef = this.af.firestore.collection('/db/24multiservicios/storeSales').doc(ticket.id);
 
         let updateData = {
           status: 'Anulado',
