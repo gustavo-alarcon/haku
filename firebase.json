@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/minimarket-boom",
+    "public": "dist/24multiservicios",
     "ignore": [
       "firebase.json",
       "**/.*",

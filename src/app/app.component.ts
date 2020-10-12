@@ -13,7 +13,7 @@ import { UpdateDialogComponent } from './shared-dialogs/update-dialog/update-dia
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'minimarket-boom';
+  title = '24multiservicios';
   version$: Observable<Config>
 
   constructor(

@@ -127,7 +127,7 @@ export class CreateUserComponent implements OnInit {
     this.userForm.disable()
     this.loading.next(true)
 
-    this.http.post(`https://us-central1-minimarket-boom.cloudfunctions.net/msCreateUser/?email=${this.userForm.value['email']}&displayName=${this.userForm.value['name'].split(" ", 1)[0] + ', ' + this.userForm.value['lastname'].split(" ", 1)[0]}&password=${this.userForm.value['pass']}`
+    this.http.post(`https://us-central1-24multiservicios.cloudfunctions.net/msCreateUser/?email=${this.userForm.value['email']}&displayName=${this.userForm.value['name'].split(" ", 1)[0] + ', ' + this.userForm.value['lastname'].split(" ", 1)[0]}&password=${this.userForm.value['pass']}`
       , this.data
       , this.httpOptions)
       .pipe(

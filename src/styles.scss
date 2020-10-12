@@ -12,7 +12,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$mat-minimarket-boom-primary-palette: (
+$mat-multiservicios-primary-palette: (
   50: #fbe9e7,
   100: #ffccbc,
   200: #ffab91,
@@ -45,7 +45,7 @@ $mat-minimarket-boom-primary-palette: (
   ),
 );
 
-$mat-minimarket-boom-accent-palette: (
+$mat-multiservicios-accent-palette: (
   50: #fffde7,
   100: #fff9c4,
   200: #fff59d,
@@ -78,23 +78,23 @@ $mat-minimarket-boom-accent-palette: (
   ),
 );
 
-$minimarket-boom-primary: mat-palette($mat-minimarket-boom-primary-palette);
-$minimarket-boom-accent: mat-palette($mat-minimarket-boom-accent-palette);
+$multiservicios-primary: mat-palette($mat-multiservicios-primary-palette);
+$multiservicios-accent: mat-palette($mat-multiservicios-accent-palette);
 
 // The warn palette is optional (defaults to red).
-$minimarket-boom-warn: mat-palette($mat-red, 400, 100, 700);
+$multiservicios-warn: mat-palette($mat-red, 400, 100, 700);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$minimarket-boom-light-theme: mat-light-theme($minimarket-boom-primary, $minimarket-boom-accent, $minimarket-boom-warn);
-$minimarket-boom-dark-theme: mat-dark-theme($minimarket-boom-primary, $minimarket-boom-accent, $minimarket-boom-warn);
+$multiservicios-light-theme: mat-light-theme($multiservicios-primary, $multiservicios-accent, $multiservicios-warn);
+$multiservicios-dark-theme: mat-dark-theme($multiservicios-primary, $multiservicios-accent, $multiservicios-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($minimarket-boom-light-theme);
+@include angular-material-theme($multiservicios-light-theme);
 
 //Saturn
-@include sat-datepicker-theme($minimarket-boom-light-theme);
+@include sat-datepicker-theme($multiservicios-light-theme);
 
 /* You can add global styles to this file, and also import other style files */
 .background-color {
@@ -106,8 +106,8 @@ $minimarket-boom-dark-theme: mat-dark-theme($minimarket-boom-primary, $minimarke
 }
 
 .dark-theme {
-  @include angular-material-theme($minimarket-boom-dark-theme);
-  @include sat-datepicker-theme($minimarket-boom-dark-theme);
+  @include angular-material-theme($multiservicios-dark-theme);
+  @include sat-datepicker-theme($multiservicios-dark-theme);
 
   .meraki__logo {
     filter: invert(1);

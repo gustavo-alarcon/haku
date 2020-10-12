@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "minimarket-boom": {
+    "24multiservicios": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/minimarket-boom",
+            "outputPath": "dist/24multiservicios",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "minimarket-boom:build"
+            "browserTarget": "24multiservicios:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "minimarket-boom:build:production"
+              "browserTarget": "24multiservicios:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "minimarket-boom:build"
+            "browserTarget": "24multiservicios:build"
           }
         },
         "test": {
@@ -114,11 +114,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "minimarket-boom:serve"
+            "devServerTarget": "24multiservicios:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "minimarket-boom:serve:production"
+              "devServerTarget": "24multiservicios:serve:production"
             }
           }
         },
@@ -129,5 +129,5 @@
       }
     }
   },
-  "defaultProject": "minimarket-boom"
+  "defaultProject": "24multiservicios"
 }
