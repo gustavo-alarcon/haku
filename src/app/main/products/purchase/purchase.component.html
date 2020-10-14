@@ -78,7 +78,7 @@
                     <input autocomplete="off" formControlName="ref" type="text" matInput placeholder="Referencia">
                     <mat-error>Campo requerido</mat-error>
                 </mat-form-field>
-                <!-- <div class="w3-margin-bottom">
+                <div class="w3-margin-bottom">
                     <div style="display: flex; flex-wrap: wrap;justify-content: space-between;">
                         <div style="width: 80%;">Especifica tu dirección en el mapa (Opcional)</div>
                         <button mat-icon-button color="primary" (click)="findMe()">
@@ -91,7 +91,7 @@
                         <agm-marker [latitude]="latitud" [longitude]="longitud"></agm-marker>
                     </agm-map>
 
-                </div> -->
+                </div>
                 <div class="ms-flex">
                     <button mat-button matStepperPrevious class="font--primary">
                         <mat-icon color="primary">keyboard_backspace</mat-icon> Anterior
@@ -107,9 +107,9 @@
             <div *ngIf="!(loading$ | async)">
                 <h2 class="subtitle">Pago</h2>
                 <form [formGroup]="payFormGroup">
-                    <div class="pay ms-flex">
+                    <!-- <div class="pay ms-flex">
                         <img src="../../../../assets/images/payment_list.jpg" alt="imagen de forma de compra y tipos de pagos" style="width: 100%; margin: 1em 0em">
-                    </div>
+                    </div> -->
                     <mat-form-field class="w3-block" appearance="outline">
                         <mat-label>Opciones de pago</mat-label>
                         <mat-select formControlName="pay" placeholder='Seleccionar'>

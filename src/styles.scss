@@ -12,21 +12,21 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$mat-minimarket-boom-primary-palette: (
-  50: #fbe9e7,
-  100: #ffccbc,
-  200: #ffab91,
-  300: #ff8a65,
-  400: #ff7043,
-  500: #ff5722,
-  600: #f4511e,
-  700: #e64a19,
-  800: #d84315,
-  900: #bf360c,
-  A100: #ff9e80,
-  A200: #ff6e40,
-  A400: #ff3d00,
-  A700: #dd2c00,
+$mat-multiservicios-primary-palette: (
+  50:#e5e9f1,
+  100:#bec8dd,
+  200:#94a4c6,
+  300: #6b81af,
+  400: #4b67a0,
+  500: #264e91,
+  600:#1f4689,
+  700: #143d7d,
+  800:#0b3471,
+  900: #00245a,
+  A100: #bec8dd,
+  A200: #94a4c6,
+  A400: #4b67a0,
+  A700: #143d7d,
   contrast: (
     50: #000000,
     100: #000000,
@@ -45,32 +45,32 @@ $mat-minimarket-boom-primary-palette: (
   ),
 );
 
-$mat-minimarket-boom-accent-palette: (
-  50: #fffde7,
-  100: #fff9c4,
-  200: #fff59d,
-  300: #fff176,
-  400: #ffee58,
-  500: #ffeb3b,
-  600: #fdd835,
-  700: #fbc02d,
-  800: #f9a825,
-  900: #f57f17,
-  A100: #ffff8d,
-  A200: #ffff00,
-  A400: #ffea00,
-  A700: #ffd600,
+$mat-multiservicios-accent-palette: (
+  50: #ddf5ef,
+  100: #aae6d6,
+  200:#6ed6bc,
+  300:#03c4a1,
+  400: #00b68c,
+  500: #00a67a,
+  600:#00996d,
+  700: #00885e,
+  800: #007850,
+  900: #005b33,
+  A100: #aae6d6,
+  A200: #6ed6bc,
+  A400: #00b68c,
+  A700: #00885e,
   contrast: (
     50: #000000,
     100: #000000,
     200: #000000,
     300: #000000,
-    400: #000000,
-    500: #000000,
-    600: #000000,
-    700: #000000,
-    800: #000000,
-    900: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
     A100: #000000,
     A200: #000000,
     A400: #000000,
@@ -78,23 +78,23 @@ $mat-minimarket-boom-accent-palette: (
   ),
 );
 
-$minimarket-boom-primary: mat-palette($mat-minimarket-boom-primary-palette);
-$minimarket-boom-accent: mat-palette($mat-minimarket-boom-accent-palette);
+$multiservicios-primary: mat-palette($mat-multiservicios-primary-palette);
+$multiservicios-accent: mat-palette($mat-multiservicios-accent-palette);
 
 // The warn palette is optional (defaults to red).
-$minimarket-boom-warn: mat-palette($mat-red, 400, 100, 700);
+$multiservicios-warn: mat-palette($mat-red, 400, 100, 700);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$minimarket-boom-light-theme: mat-light-theme($minimarket-boom-primary, $minimarket-boom-accent, $minimarket-boom-warn);
-$minimarket-boom-dark-theme: mat-dark-theme($minimarket-boom-primary, $minimarket-boom-accent, $minimarket-boom-warn);
+$multiservicios-light-theme: mat-light-theme($multiservicios-primary, $multiservicios-accent, $multiservicios-warn);
+$multiservicios-dark-theme: mat-dark-theme($multiservicios-primary, $multiservicios-accent, $multiservicios-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($minimarket-boom-light-theme);
+@include angular-material-theme($multiservicios-light-theme);
 
 //Saturn
-@include sat-datepicker-theme($minimarket-boom-light-theme);
+@include sat-datepicker-theme($multiservicios-light-theme);
 
 /* You can add global styles to this file, and also import other style files */
 .background-color {
@@ -106,8 +106,8 @@ $minimarket-boom-dark-theme: mat-dark-theme($minimarket-boom-primary, $minimarke
 }
 
 .dark-theme {
-  @include angular-material-theme($minimarket-boom-dark-theme);
-  @include sat-datepicker-theme($minimarket-boom-dark-theme);
+  @include angular-material-theme($multiservicios-dark-theme);
+  @include sat-datepicker-theme($multiservicios-dark-theme);
 
   .meraki__logo {
     filter: invert(1);
@@ -138,10 +138,10 @@ a {
 }
 
 :root {
-  --primary-color: #FF5722;
-  --accent-color: #FFEB3B;
+  --primary-color: #1a237e;
+  --accent-color: #03c4a1;
   --warn-color: #ef5350;
-  --forth-color: #E64A19;
+  --forth-color: #1a237e;
 }
 
 .ms-flex {

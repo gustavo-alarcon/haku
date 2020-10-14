@@ -46,10 +46,10 @@ export class UndoReturnDialogComponent implements OnInit {
 
   returnStock(item, array) {
     this.loading.next(true)
-    const requestRef = this.af.firestore.collection(`/db/minimarketBoom/buys`).doc(this.data.item.buyId);
-    const requestProductRef = this.af.firestore.collection(`/db/minimarketBoom/buys/${this.data.item.buyId}/buyRequestedProducts`).doc(this.data.item.id);
+    const requestRef = this.af.firestore.collection(`/db/24multiservicios/buys`).doc(this.data.item.buyId);
+    const requestProductRef = this.af.firestore.collection(`/db/24multiservicios/buys/${this.data.item.buyId}/buyRequestedProducts`).doc(this.data.item.id);
 
-    const ref = this.af.firestore.collection(`/db/minimarketBoom/productsList`).doc(this.data.item.id);
+    const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(this.data.item.id);
     this.af.firestore.runTransaction((transaction) => {
       return transaction.get(ref).then((prodDoc) => {
         let newStock = prodDoc.data().realStock - item.quantity
@@ -103,9 +103,9 @@ export class UndoReturnDialogComponent implements OnInit {
 
   undoValidated(product: BuyRequestedProduct) {
     this.loading.next(true)
-    const requestRef = this.af.firestore.collection(`/db/minimarketBoom/buys`).doc(product.buyId);
-    const requestProductRef = this.af.firestore.collection(`/db/minimarketBoom/buys/${product.buyId}/buyRequestedProducts`).doc(product.id);
-    const productRef = this.af.firestore.collection(`/db/minimarketBoom/productsList`).doc(product.id);
+    const requestRef = this.af.firestore.collection(`/db/24multiservicios/buys`).doc(product.buyId);
+    const requestProductRef = this.af.firestore.collection(`/db/24multiservicios/buys/${product.buyId}/buyRequestedProducts`).doc(product.id);
+    const productRef = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(product.id);
     let quantity = product.quantity - (product.validationData.mermaStock + product.validationData.returned)
 
     let returnAll$ = this.dbs.getBuyRequestedProducts(product.buyId).pipe(

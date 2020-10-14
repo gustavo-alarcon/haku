@@ -306,7 +306,7 @@ export class ConfigurationComponent implements OnInit {
   updateDistrict() {
     this.districtForm.disable()
     const batch = this.af.firestore.batch()
-    const ref = this.af.firestore.collection(`/db/minimarketBoom/config`).doc('generalConfig')
+    const ref = this.af.firestore.collection(`/db/24multiservicios/config`).doc('generalConfig')
     batch.update(ref, {
       districts: this.existDistrict
     })
@@ -321,7 +321,7 @@ export class ConfigurationComponent implements OnInit {
   saveWeight() {
     this.loadingWeight.next(true)
     const batch = this.af.firestore.batch()
-    const ref = this.af.firestore.collection(`/db/minimarketBoom/config`).doc('generalConfig')
+    const ref = this.af.firestore.collection(`/db/24multiservicios/config`).doc('generalConfig')
     batch.update(ref, {
       maxWeight: this.weightForm.value
     })
@@ -343,7 +343,7 @@ export class ConfigurationComponent implements OnInit {
 
   deletePay(data) {
     this.loadingPayment.next(true)
-    const payRef = this.af.firestore.collection(`/db/minimarketBoom/config/`).doc('generalConfig');
+    const payRef = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
     this.dbs.deletePhotoProduct(data.photoPath).pipe(takeLast(1)).subscribe(() => {
       return this.af.firestore.runTransaction((transaction) => {
         return transaction.get(payRef).then((doc) => {
@@ -385,7 +385,7 @@ export class ConfigurationComponent implements OnInit {
 
   deleteCategory(data) {
     this.loadingCategories.next(true)
-    const categoryRef = this.af.firestore.collection(`/db/minimarketBoom/config/`).doc('generalConfig');
+    const categoryRef = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
 
     this.dbs.deletePhotoProduct(data.photoPath).pipe(takeLast(1)).subscribe(() => {
       return this.af.firestore.runTransaction((transaction) => {
@@ -427,7 +427,7 @@ export class ConfigurationComponent implements OnInit {
 
     let batch = this.af.firestore.batch();
     this.loadingCategories.next(true)
-    const ref = this.af.firestore.collection(`/db/minimarketBoom/config/`).doc('generalConfig');
+    const ref = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
     batch.update(ref, {
       categories: newArray
     })
@@ -478,7 +478,7 @@ export class ConfigurationComponent implements OnInit {
     let batch = this.af.firestore.batch();
 
     this.loadingOpening.next(true);
-    const ref = this.af.firestore.collection(`/db/minimarketBoom/config/`).doc('generalConfig');
+    const ref = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
 
     batch.update(ref, {
       opening: openingArray

@@ -47,7 +47,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig, "minimarket-boom"),
+    AngularFireModule.initializeApp(environment.firebaseConfig, "24multiservicios"),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
@@ -58,7 +58,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
     MatDividerModule,
     MatIconModule,
     LocalStorageModule.forRoot({
-      prefix: 'minimarket-boom',
+      prefix: '24multiservicios',
       storageType: 'localStorage'
     })
   ],

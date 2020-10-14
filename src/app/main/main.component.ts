@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { DatabaseService } from '../core/services/database.service';
 import { mapTo, take, tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SaleDialogComponent } from './products/sale-dialog/sale-dialog.component';
 
 @Component({
   selector: 'app-main',

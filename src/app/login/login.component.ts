@@ -10,7 +10,7 @@ import { map, filter, mapTo } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   version: string
 
-  image: string = '../../assets/images/boom-logo-vertical.png'
+  image: string = '../../assets/images/24multi-vertical-logo.png'
 
   constructor(
     private dbs: DatabaseService
