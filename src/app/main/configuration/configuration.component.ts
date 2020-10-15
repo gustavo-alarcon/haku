@@ -84,7 +84,7 @@ export class ConfigurationComponent implements OnInit {
   loadingCategories$ = this.loadingCategories.asObservable();
 
   indCategory: number = 1
-  defaultImage = "../../../assets/images/boom-logo-horizontal.jpg";
+  defaultImage = "../../../assets/images/24multi-vertical-logo.png";
 
 
   p1: number = 1;

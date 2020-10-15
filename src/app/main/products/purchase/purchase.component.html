@@ -107,9 +107,10 @@
             <div *ngIf="!(loading$ | async)">
                 <h2 class="subtitle">Pago</h2>
                 <form [formGroup]="payFormGroup">
-                    <!-- <div class="pay ms-flex">
-                        <img src="../../../../assets/images/payment_list.jpg" alt="imagen de forma de compra y tipos de pagos" style="width: 100%; margin: 1em 0em">
-                    </div> -->
+                    <div class="pay ms-flex">
+                        <img src="../../../../assets/images/payments-24multi.jpg"
+                            alt="imagen de forma de compra y tipos de pagos" style="width: 100%; margin: 1em 0em">
+                    </div>
                     <mat-form-field class="w3-block" appearance="outline">
                         <mat-label>Opciones de pago</mat-label>
                         <mat-select formControlName="pay" placeholder='Seleccionar'>
@@ -134,7 +135,7 @@
                             S/. {{total + delivery | number: '.2'}}
                         </div>
                     </div>
-                    
+
                     <mat-form-field class="w3-block" appearance="outline">
                         <mat-select formControlName="typePay" placeholder='Boleta/Factura'>
                             <mat-option *ngFor="let type of documents" [value]="type">
@@ -143,45 +144,48 @@
                         </mat-select>
                         <mat-error>Campo requerido</mat-error>
                     </mat-form-field>
-                    <div class="w3-margin-bottom">
-                        <div class="w3-margin-bottom" style="position: relative;"
-                            *ngFor="let image of photosList; let ind = index">
-                            <img class="voucher" style="object-fit: cover;" [src]="image.img" alt="fotografía">
-                            <div class="ms-flex w3-block" style="position: absolute; top: 0;">
-                                <span class="ms-fill"></span>
-                                <button type="button" *ngIf="!image.show" mat-icon-button (click)="image.show=true">
-                                    <mat-icon>zoom_in</mat-icon>
-                                </button>
-                                <button type="button" *ngIf="image.show" mat-icon-button (click)="image.show=false">
-                                    <mat-icon>zoom_out</mat-icon>
-                                </button>
-                                <button type="button" mat-icon-button (click)="eliminatedphoto(ind)">
-                                    <mat-icon>close</mat-icon>
-                                </button>
-                            </div>
-                            <div style="text-align: center; border: 1px solid silver;" *ngIf="image.show">
-                                <div class="ms-flex w3-block">
+                    <div class="w3-margin-bottom" *ngIf="payFormGroup.get('pay').value as pay">
+                        <ng-container *ngIf="pay.name === 'BCP' || pay.name === 'YAPE'">
+                            <div class="w3-margin-bottom" style="position: relative;"
+                                *ngFor="let image of photosList; let ind = index">
+                                <img class="voucher" style="object-fit: cover;" [src]="image.img" alt="fotografía">
+                                <div class="ms-flex w3-block" style="position: absolute; top: 0;">
                                     <span class="ms-fill"></span>
-                                    <button mat-icon-button (click)="image.show=false">
+                                    <button type="button" *ngIf="!image.show" mat-icon-button (click)="image.show=true">
+                                        <mat-icon>zoom_in</mat-icon>
+                                    </button>
+                                    <button type="button" *ngIf="image.show" mat-icon-button (click)="image.show=false">
+                                        <mat-icon>zoom_out</mat-icon>
+                                    </button>
+                                    <button type="button" mat-icon-button (click)="eliminatedphoto(ind)">
                                         <mat-icon>close</mat-icon>
                                     </button>
                                 </div>
-                                <img style="width:80%;" [src]="image.img" alt="fotografía grande">
+                                <div style="text-align: center; border: 1px solid silver;" *ngIf="image.show">
+                                    <div class="ms-flex w3-block">
+                                        <span class="ms-fill"></span>
+                                        <button mat-icon-button (click)="image.show=false">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </div>
+                                    <img style="width:80%;" [src]="image.img" alt="fotografía grande">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="voucher" (click)="photoURL.click()">
-                            Agregar foto de voucher de pago
-                        </div>
-                        <mat-hint>*Campo requerido</mat-hint>
+                            <div class="voucher" (click)="photoURL.click()">
+                                Agregar foto de voucher de pago
+                            </div>
+                            <mat-hint>*Campo requerido</mat-hint>
 
-                        <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async" style="width:100%"
-                            mode="indeterminate">
-                        </mat-progress-bar>
-                        <span *ngIf="photos.resizing$.photoURL | async" class="w3-small ms-color-11 ms-font-montserrat"
-                            style="width:100%">*comprimiendo</span>
-                        <input style="display: none" #photoURL type="file" accept='image/*'
-                            (change)="addNewPhoto('photoURL', photoURL.files)" />
+                            <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async" style="width:100%"
+                                mode="indeterminate">
+                            </mat-progress-bar>
+                            <span *ngIf="photos.resizing$.photoURL | async"
+                                class="w3-small ms-color-11 ms-font-montserrat" style="width:100%">*comprimiendo</span>
+                            <input style="display: none" #photoURL type="file" accept='image/*'
+                                (change)="addNewPhoto('photoURL', photoURL.files)" />
+                        </ng-container>
+
                     </div>
                 </form>
                 <div class="ms-flex">
