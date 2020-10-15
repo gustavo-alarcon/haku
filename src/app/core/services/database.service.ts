@@ -19,7 +19,7 @@ import { StoreSale } from '../models/storeSale.model';
   providedIn: 'root'
 })
 export class DatabaseService {
-  public version: string = 'V1.0.2r';
+  public version: string = 'V1.0.3r';
   public isOpen: boolean = false;
   public isAdmin: boolean = false;
 
@@ -495,24 +495,29 @@ export class DatabaseService {
   /*sales*/
 
   uploadPhotoVoucher(id: string, file: File): Observable<string | number> {
-    const path = `/sales/vouchers/${id}-${file.name}`;
+    if (file) {
+      const path = `/sales/vouchers/${id}-${file.name}`;
 
-    // Reference to storage bucket
-    const ref = this.storage.ref(path);
+      // Reference to storage bucket
+      const ref = this.storage.ref(path);
 
-    // The main task
-    let uploadingTask = this.storage.upload(path, file);
+      // The main task
+      let uploadingTask = this.storage.upload(path, file);
 
-    let snapshot$ = uploadingTask.percentageChanges()
-    let url$ = of('url!').pipe(
-      switchMap((res) => {
-        return <Observable<string>>ref.getDownloadURL();
-      }))
+      let snapshot$ = uploadingTask.percentageChanges()
+      let url$ = of('url!').pipe(
+        switchMap((res) => {
+          return <Observable<string>>ref.getDownloadURL();
+        }))
 
-    let upload$ = concat(
-      snapshot$,
-      url$)
-    return upload$;
+      let upload$ = concat(
+        snapshot$,
+        url$)
+      return upload$;
+    } else {
+      return of(null);
+    }
+
   }
 
   getProductRecipesValueChanges(productId: string): Observable<Recipe[]> {
@@ -744,7 +749,7 @@ export class DatabaseService {
   //Sales
   getStoreSales(date: { begin: Date, end: Date }): Observable<StoreSale[]> {
     return this.afs.collection<StoreSale>(this.storeSalesRef,
-      ref => ref.where("createdAt", "<=", date.end).where("createdAt", ">=", date.begin). orderBy("createdAt", 'desc'))
+      ref => ref.where("createdAt", "<=", date.end).where("createdAt", ">=", date.begin).orderBy("createdAt", 'desc'))
       .valueChanges();
   }
 
@@ -755,6 +760,6 @@ export class DatabaseService {
   // PRODUCT LIST ENTRIES
   getProduct(id: string): Observable<Product> {
     return this.afs.doc<Product>(`${this.productsListRef}/${id}`)
-      .valueChanges().pipe (shareReplay(1));
+      .valueChanges().pipe(shareReplay(1));
   }
 }

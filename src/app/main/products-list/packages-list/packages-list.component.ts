@@ -53,7 +53,7 @@ export class PackagesListComponent implements OnInit {
 
 
   //Variables
-  defaultImage = "../../../assets/images/boom-logo-horizontal.jpg";
+  defaultImage = "../../../assets/images/24multi-vertical-logo.png";
 
   //noResult
   noResult$: Observable<string>;

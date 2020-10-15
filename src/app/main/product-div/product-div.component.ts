@@ -18,7 +18,7 @@ export class ProductDivComponent implements OnInit {
   @Input() product: Product
   @Input() maxWeight: number
   @Input() buttonAdd: boolean
-  defaultImage = "../../../assets/images/boom-logo-horizontal.jpg";
+  defaultImage = "../../../assets/images/24multi-vertical-logo.png";
 
   constructor(
     public dbs: DatabaseService,

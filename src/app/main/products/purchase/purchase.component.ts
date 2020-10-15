@@ -132,23 +132,25 @@ export class PurchaseComponent implements OnInit {
       photoURL: [null]
     });
 
-    
 
-    this.delivery = this.dbs.delivery
+
+    // this.delivery = this.dbs.delivery
+
     this.total = [...this.dbs.order].map(el => this.giveProductPrice(el)).reduce((a, b) => a + b, 0)
+    this.order = [...this.dbs.order]
 
     this.userData$ = this.auth.user$.pipe(
-      tap(res=>{
-       this.user = res
+      tap(res => {
+        this.user = res
         this.getData()
-        
+
       })
     )
 
 
   }
 
-  getData(){
+  getData() {
     if (this.user) {
       if (this.user['contact']) {
         this.firstFormGroup = this.fb.group({
@@ -329,7 +331,7 @@ export class PurchaseComponent implements OnInit {
     this.updateUser()
     if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
       if (this.payFormGroup.valid) {
-        if (!this.payFormGroup.value['photoURL']) {
+        if (!this.payFormGroup.value['photoURL'] && (this.payFormGroup.value['pay']['name'] === 'BCP' || this.payFormGroup.value['pay']['name'] === 'YAPE')) {
           this.snackbar.open('Por favor adjunte una imagen de su voucher de pago', 'cerrar')
         } else {
           this.save()
@@ -343,9 +345,79 @@ export class PurchaseComponent implements OnInit {
 
   }
 
+  getneworder() {
+
+    let copy = [...this.order]
+    let newOrder: any = [...copy].map(order => {
+      if (order['chosenOptions']) {
+        return order['chosenOptions'].map(el => {
+          return {
+            product: el,
+            quantity: 1 * order.quantity
+          }
+        })
+      } else {
+        return [order]
+      }
+    })
+
+    let otherorder = [...newOrder].reduce((a, b) => a.concat(b), []).map((el, index, array) => {
+      let counter = 0
+      let others = []
+      let reduce = 0
+      array.forEach(al => {
+        if (al.product['id'] == el.product['id']) {
+          counter++
+          others.push(al.quantity)
+        }
+      })
+      if (counter > 1) {
+        reduce = others.reduce((d, e) => d + e, 0)
+      } else {
+        reduce = el.quantity
+      }
+
+      return {
+        product: el.product,
+        reduce: reduce
+      }
+    }).filter((dish, index, array) => array.findIndex(el => el.product['id'] === dish.product['id']) === index)
+
+    return otherorder
+
+
+  }
+
   save() {
     this.loading.next(true)
+    let reduceOrder = this.getneworder()
+    this.af.firestore.runTransaction((transaction) => {
+      let promises = []
+      reduceOrder.forEach((order, ind) => {
+        const sfDocRef = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(order.product.id);
 
+        promises.push(transaction.get(sfDocRef).then((prodDoc) => {
+
+          let newStock = prodDoc.data().realStock - order.reduce;
+          transaction.update(sfDocRef, { realStock: newStock });
+
+        }).catch(function (error) {
+          console.log("Transaction failed: ", error);
+        }));
+
+
+      })
+      return Promise.all(promises);
+    }).then(() => {
+      this.savePurchase()
+
+
+    }).catch(() => {
+      this.snackbar.open('Error de conexión, no se completo la compra, intentelo de nuevo', 'cerrar')
+    })
+  }
+
+  savePurchase() {
     const saleCount = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
     const saleRef = this.af.firestore.collection(`/db/24multiservicios/sales`).doc();
 
@@ -372,11 +444,18 @@ export class PurchaseComponent implements OnInit {
       requestedProducts: this.dbs.order,
       status: 'Solicitado',
       total: this.total,
-      deliveryPrice: this.delivery,
+      deliveryPrice: this.dbs.delivery,
       voucher: [],
       voucherChecked: false
     }
 
+    const email = {
+      to: this.user.email,
+      template: {
+        name: 'saleEmail'
+      }
+    }
+    const emailRef = this.af.firestore.collection(`/mail`).doc();
 
     let userCorrelative = 1
     const ref = this.af.firestore.collection(`/users`).doc(this.user.uid);
@@ -388,16 +467,67 @@ export class PurchaseComponent implements OnInit {
 
     let photos = [...this.photos.data.map(el => this.dbs.uploadPhotoVoucher(saleRef.id, el))]
 
-    forkJoin(photos).pipe(
-      takeLast(1),
-    ).subscribe((res: string[]) => {
-      newSale.voucher = [...this.photos.data.map((el, i) => {
-        return {
-          voucherPhoto: res[i],
-          voucherPath: `/sales/vouchers/${saleRef.id}-${el.name}`
-        }
-      })]
+    if (photos.length) {
+      forkJoin(photos).pipe(
+        takeLast(1),
+      ).subscribe((res: string[]) => {
+        newSale.voucher = [...this.photos.data.map((el, i) => {
+          return {
+            voucherPhoto: res[i],
+            voucherPath: `/sales/vouchers/${saleRef.id}-${el.name}`
+          }
+        })]
 
+        return this.af.firestore.runTransaction((transaction) => {
+          return transaction.get(saleCount).then((sfDoc) => {
+            if (!sfDoc.exists) {
+              transaction.set(saleCount, { salesRCounter: 0 });
+            }
+
+            //sales
+            ////generalCounter
+            let newCorr = 1
+            if (sfDoc.data().salesRCounter) {
+              newCorr = sfDoc.data().salesRCounter + 1;
+            }
+
+            transaction.update(saleCount, { salesRCounter: newCorr });
+
+            newSale.correlative = newCorr
+
+            transaction.set(saleRef, newSale);
+            //email
+            transaction.set(emailRef, email)
+            //user
+            transaction.update(ref, {
+              contact: newSale.location,
+              name: this.firstFormGroup.value['name'],
+              lastName1: this.firstFormGroup.value['lastname1'],
+              lastName2: this.firstFormGroup.value['lastname2'],
+              dni: this.firstFormGroup.value['dni'],
+              salesCount: userCorrelative
+            })
+
+          });
+
+        }).then(() => {
+          this.dialog.open(SaleDialogComponent, {
+            data: {
+              name: this.firstFormGroup.value['name'],
+              number: newSale.correlative,
+              email: this.user.email
+            }
+          })
+
+          this.dbs.order = []
+          this.dbs.total = 0
+          this.dbs.view.next(1)
+          this.loading.next(false)
+        }).catch(function (error) {
+          this.snackbar.open('Error de conexión, no se completo la compra, intentelo de nuevo', 'cerrar')
+        });
+      })
+    } else {
       return this.af.firestore.runTransaction((transaction) => {
         return transaction.get(saleCount).then((sfDoc) => {
           if (!sfDoc.exists) {
@@ -416,6 +546,8 @@ export class PurchaseComponent implements OnInit {
           newSale.correlative = newCorr
 
           transaction.set(saleRef, newSale);
+          //email
+          transaction.set(emailRef, email)
           //user
           transaction.update(ref, {
             contact: newSale.location,
@@ -429,63 +561,257 @@ export class PurchaseComponent implements OnInit {
         });
 
       }).then(() => {
-        let copy = [...this.dbs.order]
-        let newOrder: any = [...copy].map(order => {
-          if (order['chosenOptions']) {
-            return order['chosenOptions'].map(el => {
-              return {
-                product: el,
-                quantity: 1 * order.quantity
-              }
-            })
-          } else {
-            return [order]
+        this.dialog.open(SaleDialogComponent, {
+          data: {
+            name: this.firstFormGroup.value['name'],
+            number: newSale.correlative,
+            email: this.user.email
           }
         })
 
-        this.order = newOrder.reduce((a, b) => a.concat(b), []).map((el, index, array) => {
-          let counter = 0
-          array.forEach(al => {
-            if (al.product['id'] == el.product['id']) {
-              counter++
-            }
-          })
-
-          el['quantity'] = counter
-          return el
-        }).filter((dish, index, array) => array.findIndex(el => el.product['id'] === dish.product['id']) === index)
-
-        this.order.forEach((order, ind) => {
-          const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(order.product.id);
-          this.af.firestore.runTransaction((transaction) => {
-            return transaction.get(ref).then((prodDoc) => {
-              let newStock = prodDoc.data().realStock - order.quantity;
-              transaction.update(ref, { realStock: newStock });
-            });
-          }).then(() => {
-            if (ind == this.order.length - 1) {
-              this.dialog.open(SaleDialogComponent, {
-                data: {
-                  name: this.firstFormGroup.value['name'],
-                  number: newSale.correlative,
-                  email: this.user.email
-                }
-              })
-
-              this.dbs.order = []
-              this.dbs.total = 0
-              this.dbs.view.next(1)
-              this.loading.next(false)
-            }
-
-          })
-        })
+        this.dbs.order = []
+        this.dbs.total = 0
+        this.dbs.view.next(1)
+        this.loading.next(false)
       }).catch(function (error) {
-        console.log("Transaction failed: ", error);
+        this.snackbar.open('Error de conexión, no se completo la compra, intentelo de nuevo', 'cerrar')
       });
-    })
-
-
+    }
   }
+
+  // save() {
+  //   this.loading.next(true)
+
+  //   const saleCount = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
+  //   const saleRef = this.af.firestore.collection(`/db/24multiservicios/sales`).doc();
+
+  //   let newSale: Sale = {
+  //     id: saleRef.id,
+  //     correlative: 0,
+  //     correlativeType: 'R',
+  //     document: this.payFormGroup.get('typePay').value,
+  //     payType: this.payFormGroup.get('pay').value,
+  //     location: {
+  //       address: this.secondFormGroup.get('address').value,
+  //       district: this.secondFormGroup.get('district').value,
+  //       reference: this.secondFormGroup.get('ref').value,
+  //       coord: {
+  //         lat: this.latitud,
+  //         lng: this.longitud
+  //       },
+  //       phone: this.firstFormGroup.get('phone').value
+  //     },
+  //     requestDate: null,
+  //     createdAt: new Date(),
+  //     createdBy: null,
+  //     user: this.user,
+  //     requestedProducts: this.dbs.order,
+  //     status: 'Solicitado',
+  //     total: this.total,
+  //     deliveryPrice: this.delivery,
+  //     voucher: [],
+  //     voucherChecked: false
+  //   }
+
+
+  //   let userCorrelative = 1
+  //   const ref = this.af.firestore.collection(`/users`).doc(this.user.uid);
+
+
+  //   if (this.user.salesCount) {
+  //     userCorrelative = this.user.salesCount + 1
+  //   }
+
+  //   let photos = [...this.photos.data.map(el => this.dbs.uploadPhotoVoucher(saleRef.id, el))]
+
+  //   if (photos.length) {
+  //     forkJoin(photos).pipe(
+  //       takeLast(1),
+  //     ).subscribe((res: string[]) => {
+  //       newSale.voucher = [...this.photos.data.map((el, i) => {
+  //         return {
+  //           voucherPhoto: res[i],
+  //           voucherPath: `/sales/vouchers/${saleRef.id}-${el.name}`
+  //         }
+  //       })]
+
+  //       return this.af.firestore.runTransaction((transaction) => {
+  //         return transaction.get(saleCount).then((sfDoc) => {
+  //           if (!sfDoc.exists) {
+  //             transaction.set(saleCount, { salesRCounter: 0 });
+  //           }
+
+  //           //sales
+  //           ////generalCounter
+  //           let newCorr = 1
+  //           if (sfDoc.data().salesRCounter) {
+  //             newCorr = sfDoc.data().salesRCounter + 1;
+  //           }
+
+  //           transaction.update(saleCount, { salesRCounter: newCorr });
+
+  //           newSale.correlative = newCorr
+
+  //           transaction.set(saleRef, newSale);
+  //           //user
+  //           transaction.update(ref, {
+  //             contact: newSale.location,
+  //             name: this.firstFormGroup.value['name'],
+  //             lastName1: this.firstFormGroup.value['lastname1'],
+  //             lastName2: this.firstFormGroup.value['lastname2'],
+  //             dni: this.firstFormGroup.value['dni'],
+  //             salesCount: userCorrelative
+  //           })
+
+  //         });
+
+  //       }).then(() => {
+  //         let copy = [...this.dbs.order]
+  //         let newOrder: any = [...copy].map(order => {
+  //           if (order['chosenOptions']) {
+  //             return order['chosenOptions'].map(el => {
+  //               return {
+  //                 product: el,
+  //                 quantity: 1 * order.quantity
+  //               }
+  //             })
+  //           } else {
+  //             return [order]
+  //           }
+  //         })
+
+  //         this.order = newOrder.reduce((a, b) => a.concat(b), []).map((el, index, array) => {
+  //           let counter = 0
+  //           array.forEach(al => {
+  //             if (al.product['id'] == el.product['id']) {
+  //               counter++
+  //             }
+  //           })
+
+  //           el['quantity'] = counter
+  //           return el
+  //         }).filter((dish, index, array) => array.findIndex(el => el.product['id'] === dish.product['id']) === index)
+
+  //         this.order.forEach((order, ind) => {
+  //           const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(order.product.id);
+  //           this.af.firestore.runTransaction((transaction) => {
+  //             return transaction.get(ref).then((prodDoc) => {
+  //               let newStock = prodDoc.data().realStock - order.quantity;
+  //               transaction.update(ref, { realStock: newStock });
+  //             });
+  //           }).then(() => {
+  //             if (ind == this.order.length - 1) {
+  //               this.dialog.open(SaleDialogComponent, {
+  //                 data: {
+  //                   name: this.firstFormGroup.value['name'],
+  //                   number: newSale.correlative,
+  //                   email: this.user.email
+  //                 }
+  //               })
+
+  //               this.dbs.order = []
+  //               this.dbs.total = 0
+  //               this.dbs.view.next(1)
+  //               this.loading.next(false)
+  //             }
+
+  //           })
+  //         })
+  //       }).catch(function (error) {
+  //         console.log("Transaction failed: ", error);
+  //       });
+  //     })
+  //   } else {
+  //     return this.af.firestore.runTransaction((transaction) => {
+  //       return transaction.get(saleCount).then((sfDoc) => {
+  //         if (!sfDoc.exists) {
+  //           transaction.set(saleCount, { salesRCounter: 0 });
+  //         }
+
+  //         //sales
+  //         ////generalCounter
+  //         let newCorr = 1
+  //         if (sfDoc.data().salesRCounter) {
+  //           newCorr = sfDoc.data().salesRCounter + 1;
+  //         }
+
+  //         transaction.update(saleCount, { salesRCounter: newCorr });
+
+  //         newSale.correlative = newCorr
+
+  //         transaction.set(saleRef, newSale);
+  //         //user
+  //         transaction.update(ref, {
+  //           contact: newSale.location,
+  //           name: this.firstFormGroup.value['name'],
+  //           lastName1: this.firstFormGroup.value['lastname1'],
+  //           lastName2: this.firstFormGroup.value['lastname2'],
+  //           dni: this.firstFormGroup.value['dni'],
+  //           salesCount: userCorrelative
+  //         })
+
+  //       });
+
+  //     }).then(() => {
+  //       let copy = [...this.dbs.order]
+  //       let newOrder: any = [...copy].map(order => {
+  //         if (order['chosenOptions']) {
+  //           return order['chosenOptions'].map(el => {
+  //             return {
+  //               product: el,
+  //               quantity: 1 * order.quantity
+  //             }
+  //           })
+  //         } else {
+  //           return [order]
+  //         }
+  //       })
+
+  //       this.order = newOrder.reduce((a, b) => a.concat(b), []).map((el, index, array) => {
+  //         let counter = 0
+  //         array.forEach(al => {
+  //           if (al.product['id'] == el.product['id']) {
+  //             counter++
+  //           }
+  //         })
+
+  //         el['quantity'] = counter
+  //         return el
+  //       }).filter((dish, index, array) => array.findIndex(el => el.product['id'] === dish.product['id']) === index)
+
+  //       this.order.forEach((order, ind) => {
+  //         const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(order.product.id);
+  //         this.af.firestore.runTransaction((transaction) => {
+  //           return transaction.get(ref).then((prodDoc) => {
+  //             let newStock = prodDoc.data().realStock - order.quantity;
+  //             transaction.update(ref, { realStock: newStock });
+  //           });
+  //         }).then(() => {
+  //           if (ind == this.order.length - 1) {
+  //             this.dialog.open(SaleDialogComponent, {
+  //               data: {
+  //                 name: this.firstFormGroup.value['name'],
+  //                 number: newSale.correlative,
+  //                 email: this.user.email
+  //               }
+  //             })
+
+  //             this.dbs.order = []
+  //             this.dbs.total = 0
+  //             this.dbs.view.next(1)
+  //             this.loading.next(false)
+  //           }
+
+  //         })
+  //       })
+  //     }).catch(function (error) {
+  //       console.log("Transaction failed: ", error);
+  //     });
+  //   }
+
+
+
+
+  // }
 
 }
