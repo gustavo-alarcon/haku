@@ -45,6 +45,7 @@ export class StoreSalesComponent implements OnInit {
   search$: Observable<string>;
 
   actualTicket: StoreSale;
+  actualIndex: number;
 
   locationSubject: BehaviorSubject<number> = new BehaviorSubject(0)
   locationPadding$: Observable<string>;
@@ -148,6 +149,7 @@ export class StoreSalesComponent implements OnInit {
   }
 
   showDetails(sale: StoreSale, index: number): void {
+    this.actualIndex = index;
     this.actualTicket = sale;
     this.dataSource.data = sale.ticket.productList;
     this.locationSubject.next(index);

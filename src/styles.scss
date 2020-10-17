@@ -578,3 +578,26 @@ img.ng-lazyloaded {
 .mat-drawer-inner-container::-webkit-scrollbar-track:active {
   background: #d4d4d4;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #01579b;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #003e6e;
+}
