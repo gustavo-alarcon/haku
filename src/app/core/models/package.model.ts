@@ -36,7 +36,7 @@ export interface PackageItems {
 }
 
 interface ProductWithQuantity extends Product {
-  quantity: number
+  quantity?: number
 }
 
 interface PromoData {

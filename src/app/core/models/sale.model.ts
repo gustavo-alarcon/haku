@@ -23,7 +23,7 @@ export interface SaleRequestedProducts {
   //If "product" is a package, we will have to specify the chosen products
   //for each field in package.items. chosenOptions will contain the
   //chosen products in the same order as each field in package.items.
-  chosenOptions?: Product[];
+  chosenOptions?: string[];
 }
 
 export interface Sale {
