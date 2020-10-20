@@ -762,4 +762,19 @@ export class DatabaseService {
     return this.afs.doc<Product>(`${this.productsListRef}/${id}`)
       .valueChanges().pipe(shareReplay(1));
   }
+
+  getPackage(id): Observable<Package> {
+    return this.afs.doc<Package>(`${this.packagesListRef}/${id}`)
+      .valueChanges().pipe(shareReplay(1));
+  }
+
+  getItemsPackage(array): Observable<Product[]> {
+    return this.afs
+      .collection<Product>(this.productsListRef, (ref) =>
+        ref.where("id", "in", array)
+      )
+      .valueChanges()
+      .pipe(shareReplay(1));
+  }
+
 }
