@@ -1,4 +1,4 @@
-<mat-card [ngClass]="package?'product product--package w3-margin-bottom':'product product--product w3-margin-bottom'">
+<mat-card *ngIf="product$ | async" [ngClass]="package?'product product--package w3-margin-bottom':'product product--product w3-margin-bottom'">
     <div class="ms-flex product__container">
         <div class="product__image-div">
             <img [defaultImage]="defaultImage" [lazyLoad]="product.photoURL" [offset]="100" class="product__image">
@@ -6,10 +6,7 @@
         <div class="product__descrip">
             <div class="ms-flex product__container">
                 <div [ngClass]="package?'product__title':'product__title product__title--prod'">{{product.description | titlecase}}</div>
-                <button *ngIf="!package" mat-icon-button style="border: 1px dashed #565656; font-size: 1.3em;"
-                    (click)="navigate(product.id)">
-                    🍴
-                </button>
+
             </div>
             <div *ngIf="!package">
                 <div *ngIf="product.realStock <= product.sellMinimum" class="product__provision">
@@ -19,28 +16,26 @@
                 <div *ngIf="packageDisabled(product)" class="product__provision">
                     En abastecimiento</div>
             </div>
-            <p
-                [ngClass]="package?'product__paragraph product__paragraph--pack':'product__paragraph product__paragraph--prod'">
+            <p class="product__paragraph product__paragraph--pack">
                 {{product.additionalDescription}}</p>
             <div *ngIf="package" class="product__choose ms-flex ms-flex--center">
                 <div style="width: 100%;">
                     <div *ngFor="let item of product['items']">
                         <div class="product__select" style="border-color: silver;"
                             *ngIf="item['productsOptions'].length == 1">
-                            {{item['productsOptions'][0]['description'] | titlecase}} ({{item['productsOptions'][0].unit.abbreviation}})
+                            {{item['productsOptions'][0]['quantity']}} - {{item['productsOptions'][0]['description'] | titlecase}}
                         </div>
                         <mat-select class="product__select" *ngIf="item['productsOptions'].length > 1"
                             [(value)]="item['choose']">
                             <mat-option *ngFor="let status of item['productsOptions']" [value]="status" [disabled]="optionDisabled(status)">
-                                {{status['description'] | titlecase}} ({{status.unit.abbreviation}})
+                                {{status['quantity']}} - {{status['description'] | titlecase}}
                             </mat-option>
                         </mat-select>
     
                     </div>
                 </div>
             </div>
-            <div *ngIf="!package" class="product__etiquet">Precio por {{product.unit.description}} (aprox
-                {{product.unit.abbreviation}})
+            <div *ngIf="!package" class="product__etiquet">Precio por {{product.unit.description}} 
             </div>
             <div class="ms-flex product__container">
                 <div>

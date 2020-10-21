@@ -93,7 +93,7 @@
               class="w3-center w3-padding  ">
               Descripción
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.description |titlecase}}
             </td>
           </ng-container>
@@ -103,7 +103,7 @@
               class="w3-center w3-padding  ">
               SKU
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.sku}}
             </td>
           </ng-container>
@@ -114,7 +114,7 @@
               mat-sort-header>
               Categoria
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.category}}
             </td>
           </ng-container>
@@ -124,7 +124,7 @@
               class="w3-center w3-padding  ">
               Precio
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.price | currency : 'S/.'}}
             </td>
           </ng-container>
@@ -134,7 +134,7 @@
               class="w3-center w3-padding  ">
               Unidad
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.unit.description}}
             </td>
           </ng-container>
@@ -144,7 +144,7 @@
               class="w3-center w3-padding  ">
               Abreviación
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.unit.abbreviation}}
             </td>
           </ng-container> -->
@@ -154,7 +154,7 @@
               class="w3-center w3-padding  ">
               Peso (KG)
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.unit.weight}}KG
             </td>
           </ng-container> -->
@@ -164,7 +164,7 @@
               class="w3-center w3-padding  ">
               Stock
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.realStock}}
             </td>
           </ng-container>
@@ -174,7 +174,7 @@
               class="w3-center w3-padding  ">
               Merma
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.mermaStock}}
             </td>
           </ng-container> -->
@@ -184,7 +184,7 @@
               class="w3-center w3-padding  ">
               Stock Virtual
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.virtualStock$ | async}}
             </td>
           </ng-container> -->
@@ -194,7 +194,7 @@
               class="w3-center w3-padding  ">
               Min. Venta
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.sellMinimum}}
             </td>
           </ng-container> -->
@@ -204,7 +204,7 @@
               class="w3-center w3-padding  ">
               Min. alerta
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.alertMinimum}}
             </td>
           </ng-container>
@@ -214,7 +214,7 @@
               class="w3-center w3-padding  ">
               Estado
             </th>
-            <td style="font-size:10px; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em; padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.published ? 'Publicado' : 'Oculto'}}
             </td>
           </ng-container>
