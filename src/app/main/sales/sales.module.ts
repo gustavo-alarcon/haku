@@ -38,7 +38,7 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
     SalesMasterComponent,
     SalesDetailComponent,
     SalesPhotoDialogComponent,
-    SalesAddressDialogComponent
+    SalesAddressDialogComponent,
   ],
   imports: [
     CommonModule,

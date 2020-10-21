@@ -12,7 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { SalesPhotoDialogComponent } from '../sales-photo-dialog/sales-photo-dialog.component';
 import { GeneralConfig } from 'src/app/core/models/generalConfig.model';
-import { Package } from 'src/app/core/models/package.model';
+import { Package, PackageItems } from 'src/app/core/models/package.model';
 
 @Component({
   selector: 'app-sales-detail',
@@ -49,12 +49,14 @@ export class SalesDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //console.log(this.sale)
+    console.log(this.sale)
     this.initForm()
     this.initObservables()
   }
 
-
+  debug(sth: any){
+    console.log(sth)
+  }
 
   initForm() {
     this.searchProductControl = new FormControl("")
@@ -70,10 +72,10 @@ export class SalesDetailComponent implements OnInit {
       (<FormArray>this.productForm.get('productList')).insert(index,
         product.product.package ?
           this.fb.group({
-            product: [product.product, Validators.required],
+            product: [product.product, Validators.required], //Product|Package
             quantity: [product.quantity, Validators.required],
             chosenOptions: this.fb.array(
-              product.chosenOptions.map(opt => new FormControl(opt))
+              product.chosenOptions.map(product => new FormControl(product))
             )
           }) :
           this.fb.group({
@@ -81,6 +83,7 @@ export class SalesDetailComponent implements OnInit {
             quantity: [product.quantity, Validators.required],
           })
       )
+      console.log(this.productForm.get('productList').value)
     })
 
     this.confirmedRequestForm = this.fb.group({
