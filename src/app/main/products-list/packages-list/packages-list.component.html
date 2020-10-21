@@ -91,7 +91,7 @@
               class="w3-center w3-padding  ">
               Descripción
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.description |titlecase}}
             </td>
           </ng-container>
@@ -102,14 +102,14 @@
               class="w3-center w3-padding  ">
               Opciones de Productos
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
-              <ol style="text-align:left">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+              <ul style="text-align:left">
                 <li *ngFor="let item of raw.items">
                   <span *ngFor="let option of item.productsOptions; let i = index">
-                    {{option.description |titlecase}}{{i+1 < item.productsOptions.length ? "; ":"."}}
+                    {{option.quantity}} - {{option.description |titlecase}}{{i+1 < item.productsOptions.length ? "; ":"."}}
                   </span>
                 </li>
-              </ol>
+              </ul>
             </td>
           </ng-container>
 
@@ -118,7 +118,7 @@
               class="w3-center w3-padding  ">
               SKU
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.sku}}
             </td>
           </ng-container>
@@ -128,7 +128,7 @@
               class="w3-center w3-padding  ">
               Categoría
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.category}}
             </td>
           </ng-container>
@@ -138,7 +138,7 @@
               class="w3-center w3-padding  ">
               Precio
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.price | currency : 'S/.'}}
             </td>
           </ng-container>
@@ -148,27 +148,27 @@
               class="w3-center w3-padding  ">
               Descripción de Unidad
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.unit.description}}
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="unitAbbreviation">
+          <!--ng-container matColumnDef="unitAbbreviation">
             <th *matHeaderCellDef style=" font-size: 0.9em;padding:0px 1em; font-weight: 500; color: #828282; "
               class="w3-center w3-padding  ">
               Abreviación
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.unit.abbreviation}}
             </td>
-          </ng-container>
+          </ng-container-->
 
           <ng-container matColumnDef="published">
             <th *matHeaderCellDef style=" font-size: 0.9em;padding:0px 1em; font-weight: 500; color: #828282; "
               class="w3-center w3-padding  ">
               Estado
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{raw.published ? 'Publicado' : 'Oculto'}}
             </td>
           </ng-container>
@@ -178,7 +178,7 @@
               class="w3-center w3-padding  ">
               Límite de Fecha
             </th>
-            <td style="padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
+            <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               {{!raw.dateLimit ? 'Indefinido' : (raw.dateLimit['seconds']*1000 | date:'dd/MM/yyyy')}}
             </td>
           </ng-container>

@@ -37,16 +37,6 @@
           </mat-error>
       </mat-form-field>
 
-      <!-- additionalDescription -->
-      <mat-form-field appearance="outline" style="width: 100%">
-        <mat-label>Información</mat-label>
-        <textarea #addDesc 
-          style="min-height: 100px;"
-          formControlName="additionalDescription" 
-          matInput maxlength="70"></textarea>
-        <mat-hint align="end">{{addDesc.value?.length || 0}}/70</mat-hint>
-      </mat-form-field>
-
       <!-- Price and unit -->
       <div style="display:flex; flex-direction: row; justify-content: space-between; width: 100%"> 
         <!-- price  -->
@@ -146,42 +136,58 @@
       <!-- itemsFormArray -->
       <form *ngFor="let group of itemsFormArray.controls; let i = index"
         [formGroup]="group" style="margin-bottom: 8px">
-        <mat-form-field style="width: 100%" appearance="outline">
-          <mat-label>Item n° {{i+1}}</mat-label>
-          <mat-chip-list #chipList
-            formControlName="productsOptions">
-            <mat-chip
-              *ngFor="let product of group.get('productsOptions').value"
-              [selectable]="true"
-              [removable]="true"
-              (removed)="onRemoveProduct(product, group)">
-              {{product.description}}
-              <mat-icon color="primary" matChipRemove>remove_circle</mat-icon>
-            </mat-chip>
-            <input
-              #fruitInput
-              formControlName="textInput"
-              [matAutocomplete]="auto"
-              [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              (matChipInputTokenEnd)="onAddProduct(auto, $event, group)">
-          </mat-chip-list>
-          <mat-error>
+          <div><strong>Item n° {{i+1}}</strong></div>
+         
+          <div class="ms-flex" style="flex-direction: row; justify-content: space-between; width: 100%"> 
+            <mat-form-field class="w3-small" style="width: 65%"
+            appearance="outline">
+            <mat-label>Producto</mat-label>
+            <input type="text" matInput
+            formControlName="textInput"
+            [matAutocomplete]="auto">
+            <mat-autocomplete 
+            #auto="matAutocomplete" autoActiveFirstOption 
+            [displayWith]="displayFn.bind(this)">
+            <mat-option *ngFor="let product of productsListAutocompletes$[i] | async" [value]="product">
+              {{product.description | titlecase}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+            <mat-form-field style="width: 30%"
+              appearance="outline" class="w3-small">
+                <mat-label>Cantidad</mat-label>
+                <input type="number" formControlName="quantityInput" autocomplete="off" matInput >
+                
+            </mat-form-field>
+            
+          </div>
+          <button mat-flat-button class="w3-small w3-block w3-margin-bottom" color="primary" (click)="onSelectProduct( group)">Agregar</button>
+          
+          <div *ngIf="group.get('productsOptions').value.length; else emptyProducts">
+            <mat-divider></mat-divider>
+            <div *ngFor="let product of group.get('productsOptions').value" class="ms-flex w3-margin-top">
+              <div style="width: 90%;">
+                {{product.quantity}} - {{product.description | titlecase}}
+              </div>
+              <div>
+                <mat-icon class="removeIcon"
+                (click)="onRemoveProduct(product,group)">
+                remove_circle
+              </mat-icon>
+              </div>
+            </div>
+          </div>
+          <ng-template #emptyProducts>
+            <strong>Seleccione sus productos a incluir.</strong>
+          </ng-template>
+          <hr/>
+          <!--mat-error>
             <span *ngIf="group.get('productsOptions').errors?.minInputsValidator">
               Seleccionar por lo menos 1 producto.
             </span>
           </mat-error>
-          <mat-hint>Seleccione sus productos a incluir.</mat-hint>
-          <mat-autocomplete 
-            #auto="matAutocomplete" autoActiveFirstOption 
-            (optionSelected)="onSelectProduct($event.option.value, group)"
-            [displayWith]="displayFn.bind(this)">
-            <mat-option *ngFor="let product of productsListAutocompletes$[i] | async" [value]="product">
-              {{product.description}}
-            </mat-option>
-          </mat-autocomplete>
+          <mat-hint>Seleccione sus productos a incluir.</mat-hint-->
           
-        </mat-form-field>
       </form>
       
       <!-- Photo  -->

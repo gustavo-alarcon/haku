@@ -36,9 +36,9 @@ export class PackagesListComponent implements OnInit {
   //Table
   packagesTableDataSource = new MatTableDataSource<Package>();
   packagesDisplayedColumns: string[] = [
-    'index', 'photoURL', 'description', 'sku', 'category', 'dateLimit',
-    'price', 'unitDescription', 'unitAbbreviation',
-    'published', 'items', 'actions'
+    'index', 'photoURL', 'description', 'sku', 'category', 'items', 'price','dateLimit',
+     'unitDescription', 
+    'published', 'actions'
   ]
 
   packagesObservable$: Observable<Package[]>
