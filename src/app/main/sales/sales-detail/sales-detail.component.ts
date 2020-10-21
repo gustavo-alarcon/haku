@@ -75,7 +75,7 @@ export class SalesDetailComponent implements OnInit {
             product: [product.product, Validators.required], //Product|Package
             quantity: [product.quantity, Validators.required],
             chosenOptions: this.fb.array(
-              product.chosenOptions.map(productId => new FormControl(productId))
+              product.chosenOptions.map(product => new FormControl(product))
             )
           }) :
           this.fb.group({
@@ -117,10 +117,6 @@ export class SalesDetailComponent implements OnInit {
           this.sale.confirmedDeliveryData.deliveryBusiness
       ],
     })
-  }
-
-  getProductOptionFromId(productOptions: PackageItems["productsOptions"], id: string): PackageItems["productsOptions"][0]{
-    return productOptions.find(el => el.id == id)
   }
 
   //initRequestConfirmed

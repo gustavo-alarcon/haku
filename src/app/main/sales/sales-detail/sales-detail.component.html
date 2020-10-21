@@ -134,24 +134,32 @@
                                         <!-- Second case... saleStatus is not attended -->
                                         <ng-container *ngIf="packageItems.productsOptions.length != 1 &&
                                             sale.status != saleStatusOptions.attended">
-                                            {{(item.get('chosenOptions')['controls'][i2].value | getProductOptionFromId:packageItems.productsOptions).description}}
-                                            <!-- <mat-icon style="cursor: pointer; font-size:medium; width:auto"
-                                                matTooltip="{{packageItems.value.unit.abbreviation}}">
+                                            {{item.get('chosenOptions')['controls'][i2].value.description | titlecase}}
+                                            <mat-icon style="cursor: pointer; font-size:medium; width:auto"
+                                                matTooltip="{{item.get('chosenOptions')['controls'][i2].value.unit.abbreviation}}">
                                                 info
-                                            </mat-icon> -->
+                                            </mat-icon>
                                         </ng-container>
 
                                     </ng-container>
                                         
 
                                    <ng-template #noSingle>
-                                         <!-- <select style="max-width: 100px;" [formControl]="idField">
-                                            <option 
-                                                *ngFor="let product of item.get('product').value.items[i2].productsOptions"
-                                                [ngValue]="product.id">
-                                                {{product.description | titlecase}} ({{product.unit.abbreviation}}) default
+                                         <select [formControl]="item.get('chosenOptions')['controls'][i2]">
+                                            <option
+                                                [ngValue]="item.get('chosenOptions')['controls'][i2].value">
+                                                {{item.get('chosenOptions')['controls'][i2].value.description | titlecase}} ({{item.get('chosenOptions')['controls'][i2].value.unit.abbreviation}})
                                             </option>
-                                        </select> -->
+                                            <ng-container 
+                                                *ngFor="let product of packageItems.productsOptions">
+                                                <option 
+                                                    *ngIf="item.get('chosenOptions')['controls'][i2].value.id != product.id"
+                                                    [ngValue]="product">
+                                                    {{product.description | titlecase}} ({{product.unit.abbreviation}})
+                                                </option>
+                                            </ng-container>
+
+                                        </select>
                                     </ng-template>
                                 </li>
                             </ol>

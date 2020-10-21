@@ -28,7 +28,6 @@ import { Ng2ImgMaxModule } from 'ng2-img-max';
 import { SalesAddressDialogComponent } from './sales-address-dialog/sales-address-dialog.component';
 import { AgmCoreModule } from '@agm/core';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
-import { GetProductOptionFromIdPipe } from './sales-detail/get-product-option-from-id.pipe';
 
 
 
@@ -40,7 +39,6 @@ import { GetProductOptionFromIdPipe } from './sales-detail/get-product-option-fr
     SalesDetailComponent,
     SalesPhotoDialogComponent,
     SalesAddressDialogComponent,
-    GetProductOptionFromIdPipe
   ],
   imports: [
     CommonModule,
