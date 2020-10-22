@@ -116,7 +116,7 @@
                         <!-- only for packages -->
                         <ng-container *ngIf="item.get('product').value.package">
                             <br>
-                            <ol style="margin: 0; padding-left: 14px;">
+                            <ul style="margin: 0; padding-left: 14px;">
                                 <li *ngFor="let packageItems of item.get('product').value.items; let i2=index">
                                     <ng-container 
                                         *ngIf="(packageItems.productsOptions.length == 1
@@ -124,7 +124,7 @@
                                         
                                         <!-- First case... only one option -->
                                         <ng-container *ngIf="packageItems.productsOptions.length == 1">
-                                            {{packageItems.productsOptions[0].description | titlecase}}
+                                            ({{packageItems.productsOptions[0].quantity}}) {{packageItems.productsOptions[0].description | titlecase}}
                                             <mat-icon style="cursor: pointer; font-size:medium; width:auto"
                                                 matTooltip="{{packageItems.productsOptions[0].unit.abbreviation}}">
                                                 info
@@ -134,7 +134,7 @@
                                         <!-- Second case... saleStatus is not attended -->
                                         <ng-container *ngIf="packageItems.productsOptions.length != 1 &&
                                             sale.status != saleStatusOptions.attended">
-                                            {{item.get('chosenOptions')['controls'][i2].value.description | titlecase}}
+                                            ({{item.get('chosenOptions')['controls'][i2].value.quantity}}) {{item.get('chosenOptions')['controls'][i2].value.description | titlecase}}
                                             <mat-icon style="cursor: pointer; font-size:medium; width:auto"
                                                 matTooltip="{{item.get('chosenOptions')['controls'][i2].value.unit.abbreviation}}">
                                                 info
@@ -148,21 +148,21 @@
                                          <select [formControl]="item.get('chosenOptions')['controls'][i2]">
                                             <option
                                                 [ngValue]="item.get('chosenOptions')['controls'][i2].value">
-                                                {{item.get('chosenOptions')['controls'][i2].value.description | titlecase}} ({{item.get('chosenOptions')['controls'][i2].value.unit.abbreviation}})
+                                                ({{item.get('chosenOptions')['controls'][i2].value.quantity}}) {{item.get('chosenOptions')['controls'][i2].value.description | titlecase}} ({{item.get('chosenOptions')['controls'][i2].value.unit.abbreviation}})
                                             </option>
                                             <ng-container 
                                                 *ngFor="let product of packageItems.productsOptions">
                                                 <option 
                                                     *ngIf="item.get('chosenOptions')['controls'][i2].value.id != product.id"
                                                     [ngValue]="product">
-                                                    {{product.description | titlecase}} ({{product.unit.abbreviation}})
+                                                    ({{item.get('chosenOptions')['controls'][i2].value.quantity}}) {{product.description | titlecase}} ({{product.unit.abbreviation}})
                                                 </option>
                                             </ng-container>
 
                                         </select>
                                     </ng-template>
                                 </li>
-                            </ol>
+                            </ul>
                         </ng-container>
 
 

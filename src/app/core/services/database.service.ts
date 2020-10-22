@@ -11,7 +11,7 @@ import { Recipe } from '../models/recipe.model';
 import { Unit, PackageUnit } from '../models/unit.model';
 import { Buy, BuyRequestedProduct } from '../models/buy.model';
 import * as firebase from 'firebase'
-import { Package } from '../models/package.model';
+import { Package, PackageItems } from '../models/package.model';
 import { Ticket } from '../models/ticket.model';
 import { StoreSale } from '../models/storeSale.model';
 
@@ -678,19 +678,57 @@ export class DatabaseService {
     let dec = decrease ? -1 : 1;
     let requestedProductRef: DocumentReference;
 
-    requestedProducts.forEach(product => {
+    requestedProducts.forEach((product) => {
       if (!product.product.package) {
         requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(product.product.id)
         batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
       } else {
-        product.chosenOptions.forEach(opt => {
+        product.chosenOptions.forEach((opt, index) => {
           requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
-          batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
+          
+          batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
+            dec * product.quantity * opt.quantity
+            ) });
         })
       }
     })
 
     return batch;
+  }
+
+  onDoubleUpdateStock(requestedProductsToDecrease: Sale['requestedProducts'],
+    requestedProductsToIncrease: Sale['requestedProducts'],
+    batch: firebase.firestore.WriteBatch, decrease: boolean){
+      let productSet = new Set();
+
+      [...requestedProductsToDecrease, ...requestedProductsToIncrease].map(product => {
+        if (!product.product.package) {
+          productSet.add(product.product.id)
+        } else {
+          product.chosenOptions.forEach((opt, index) => {
+            requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
+            
+            batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
+              dec * product.quantity * opt.quantity
+              ) });
+          })
+        }
+      })
+
+      requestedProductsToDecrease.forEach((product) => {
+        if (!product.product.package) {
+          requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(product.product.id)
+          batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
+        } else {
+          product.chosenOptions.forEach((opt, index) => {
+            requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
+            
+            batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
+              dec * product.quantity * opt.quantity
+              ) });
+          })
+        }
+      })
   }
 
   //configuracion
