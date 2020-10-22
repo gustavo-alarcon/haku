@@ -364,8 +364,8 @@ export class SalesDetailComponent implements OnInit {
                 } else {
                   //We are getting from attended to higher, we should edit stock
                   if(this.sale.status == this.saleStatusOptions.attended){
-                      this.onUpdateStock(this.sale.requestedProducts, batch, false)
-                      this.onUpdateStock(sale.requestedProducts, batch, true)
+                      // this.onUpdateStock(this.sale.requestedProducts, batch, false)
+                      // this.onUpdateStock(sale.requestedProducts, batch, true)
                   }
                 }
               } else {

@@ -696,40 +696,40 @@ export class DatabaseService {
     return batch;
   }
 
-  onDoubleUpdateStock(requestedProductsToDecrease: Sale['requestedProducts'],
-    requestedProductsToIncrease: Sale['requestedProducts'],
-    batch: firebase.firestore.WriteBatch, decrease: boolean){
-      let productSet = new Set();
+  // onDoubleUpdateStock(requestedProductsToDecrease: Sale['requestedProducts'],
+  //   requestedProductsToIncrease: Sale['requestedProducts'],
+  //   batch: firebase.firestore.WriteBatch, decrease: boolean){
+  //     let productSet = new Set();
 
-      [...requestedProductsToDecrease, ...requestedProductsToIncrease].map(product => {
-        if (!product.product.package) {
-          productSet.add(product.product.id)
-        } else {
-          product.chosenOptions.forEach((opt, index) => {
-            requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
+  //     [...requestedProductsToDecrease, ...requestedProductsToIncrease].map(product => {
+  //       if (!product.product.package) {
+  //         productSet.add(product.product.id)
+  //       } else {
+  //         product.chosenOptions.forEach((opt, index) => {
+  //           requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
             
-            batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
-              dec * product.quantity * opt.quantity
-              ) });
-          })
-        }
-      })
+  //           batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
+  //             dec * product.quantity * opt.quantity
+  //             ) });
+  //         })
+  //       }
+  //     })
 
-      requestedProductsToDecrease.forEach((product) => {
-        if (!product.product.package) {
-          requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(product.product.id)
-          batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
-        } else {
-          product.chosenOptions.forEach((opt, index) => {
-            requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
+  //     requestedProductsToDecrease.forEach((product) => {
+  //       if (!product.product.package) {
+  //         requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(product.product.id)
+  //         batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
+  //       } else {
+  //         product.chosenOptions.forEach((opt, index) => {
+  //           requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
             
-            batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
-              dec * product.quantity * opt.quantity
-              ) });
-          })
-        }
-      })
-  }
+  //           batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
+  //             dec * product.quantity * opt.quantity
+  //             ) });
+  //         })
+  //       }
+  //     })
+  // }
 
   //configuracion
   getDistricts(): Observable<any> {
