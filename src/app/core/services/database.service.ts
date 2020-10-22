@@ -696,40 +696,55 @@ export class DatabaseService {
     return batch;
   }
 
-  // onDoubleUpdateStock(requestedProductsToDecrease: Sale['requestedProducts'],
-  //   requestedProductsToIncrease: Sale['requestedProducts'],
-  //   batch: firebase.firestore.WriteBatch, decrease: boolean){
-  //     let productSet = new Set();
+  onDoubleUpdateStock(requestedProductsToDecrease: Sale['requestedProducts'],
+    requestedProductsToIncrease: Sale['requestedProducts'],
+    batch: firebase.firestore.WriteBatch){
+      let requestedProductRef: DocumentReference;
 
-  //     [...requestedProductsToDecrease, ...requestedProductsToIncrease].map(product => {
-  //       if (!product.product.package) {
-  //         productSet.add(product.product.id)
-  //       } else {
-  //         product.chosenOptions.forEach((opt, index) => {
-  //           requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
-            
-  //           batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
-  //             dec * product.quantity * opt.quantity
-  //             ) });
-  //         })
-  //       }
-  //     })
+      let productList: {productId: string; amount: number}[] = [];
+      let foundProduct: {productId: string; amount: number} = null
 
-  //     requestedProductsToDecrease.forEach((product) => {
-  //       if (!product.product.package) {
-  //         requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(product.product.id)
-  //         batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
-  //       } else {
-  //         product.chosenOptions.forEach((opt, index) => {
-  //           requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
+      let productId: string=null;
+
+      [...requestedProductsToDecrease.map(el => ({...el, decrease: true})), 
+        ...requestedProductsToIncrease.map(el => ({...el, decrease: false}))].forEach(product => {
+
+        if (!product.product.package) {
+
+          productId = product.product.id
+          foundProduct = productList.find(el => el.productId == productId)
+
+          if(foundProduct){
+            foundProduct.amount += product.decrease ? (-1)*product.quantity : product.quantity
+          } else {
+            productList.push({productId: productId, 
+              amount: product.decrease ? (-1)*product.quantity : product.quantity})
+          }
+
+        } else {
+          product.chosenOptions.forEach((opt, index) => {
             
-  //           batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
-  //             dec * product.quantity * opt.quantity
-  //             ) });
-  //         })
-  //       }
-  //     })
-  // }
+            productId = opt.id
+            foundProduct = productList.find(el => el.productId == productId)
+
+            if(foundProduct){
+              foundProduct.amount += product.decrease ? (-1)*opt.quantity*product.quantity : opt.quantity*product.quantity
+            } else {
+              productList.push({productId: productId, 
+                amount: product.decrease ? (-1)*opt.quantity*product.quantity : opt.quantity*product.quantity})
+            }
+
+          })
+        }
+      })
+
+      productList.forEach(el => {
+        requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(el.productId)
+        batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(el.amount) });
+      })
+      console.log(productList);
+      return batch
+  }
 
   //configuracion
   getDistricts(): Observable<any> {

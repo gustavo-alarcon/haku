@@ -359,18 +359,14 @@ export class SalesDetailComponent implements OnInit {
               //not editting
               if(!edit){
                 //We are cancelling an order
-                if(newStatus != this.saleStatusOptions.cancelled){
+                if(newStatus == this.saleStatusOptions.cancelled){
                   this.onUpdateStock(this.sale.requestedProducts, batch, false)
                 } else {
                   //We are getting from attended to higher, we should edit stock
                   if(this.sale.status == this.saleStatusOptions.attended){
-                      // this.onUpdateStock(this.sale.requestedProducts, batch, false)
-                      // this.onUpdateStock(sale.requestedProducts, batch, true)
+                    this.dbs.onDoubleUpdateStock(sale.requestedProducts, this.sale.requestedProducts, batch)
                   }
                 }
-              } else {
-                //edit
-                
               }
 
               ///////
