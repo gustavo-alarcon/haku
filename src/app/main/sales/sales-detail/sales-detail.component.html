@@ -155,7 +155,7 @@
                                                 <option 
                                                     *ngIf="item.get('chosenOptions')['controls'][i2].value.id != product.id"
                                                     [ngValue]="product">
-                                                    ({{item.get('chosenOptions')['controls'][i2].value.quantity}}) {{product.description | titlecase}} ({{product.unit.abbreviation}})
+                                                    ({{product.quantity}}) {{product.description | titlecase}} ({{product.unit.abbreviation}})
                                                 </option>
                                             </ng-container>
 
