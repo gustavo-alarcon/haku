@@ -353,7 +353,7 @@ export class PurchaseComponent implements OnInit {
         return order['chosenOptions'].map(el => {
           return {
             product: el,
-            quantity: 1 * order.quantity
+            quantity: el.quantity * order.quantity
           }
         })
       } else {
