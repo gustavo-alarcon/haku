@@ -23,12 +23,12 @@
                     <div *ngFor="let item of product['items']">
                         <div class="product__select" style="border-color: silver;"
                             *ngIf="item['productsOptions'].length == 1">
-                            {{item['productsOptions'][0]['quantity']}} - {{item['productsOptions'][0]['description'] | titlecase}}
+                            {{item['productsOptions'][0]['quantity']}} x {{item['productsOptions'][0]['description'] | titlecase}}
                         </div>
                         <mat-select class="product__select" *ngIf="item['productsOptions'].length > 1"
                             [(value)]="item['choose']">
                             <mat-option *ngFor="let status of item['productsOptions']" [value]="status" [disabled]="optionDisabled(status)">
-                                {{status['quantity']}} - {{status['description'] | titlecase}}
+                                {{status['quantity']}} x {{status['description'] | titlecase}}
                             </mat-option>
                         </mat-select>
     

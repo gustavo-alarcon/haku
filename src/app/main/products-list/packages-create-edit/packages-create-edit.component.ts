@@ -40,7 +40,7 @@ export class PackagesCreateEditComponent implements OnInit {
   productsList$: Observable<Product[]>
   productsListAutocompletes$: Observable<Product[]>[];
 
-  noImage = '../../../../assets/images/no-image.png';
+  noImage = '../../../../assets/svg/no-image.svg';
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   photos: {

@@ -23,7 +23,7 @@ export class SalesPhotoDialogComponent implements OnInit {
   photoFormArray: FormArray = new FormArray([])
   loading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  noImage = '../../../../assets/images/no-image.png'
+  noImage = '../../../../assets/svg/no-image.svg'
 
   constructor(
     private ng2ImgMax: Ng2ImgMaxService,

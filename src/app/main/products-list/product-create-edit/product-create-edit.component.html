@@ -179,7 +179,7 @@
           <img class="w3-card-4" (click)="photoURL.click()" *ngIf="productForm.get('photoURL').value!=null"
             style="width: 70%;" [src]="productForm.get('photoURL').value" alt="fotografía">
           <img class="w3-card-4" (click)="photoURL.click()" *ngIf="productForm.get('photoURL').value==null"
-            style="width: 70%;" [src]="noImage" alt="sin fotografía">
+            style="width: 70%; padding: 2em;" [src]="noImage" alt="sin fotografía">
 
           <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async" style="width:70%" mode="indeterminate">
           </mat-progress-bar>

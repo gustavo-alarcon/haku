@@ -30,7 +30,7 @@ export class ProductCreateEditComponent implements OnInit {
   //variables
   units: Unit[];
 
-  noImage = '../../../../assets/images/no-image.png';
+  noImage = '../../../../assets/svg/no-image.svg';
 
   photos: {
     resizing$: {

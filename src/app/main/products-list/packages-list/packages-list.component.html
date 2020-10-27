@@ -105,9 +105,12 @@
             <td style="font-size:0.75em;padding:0px 8px; font-weight: bold;" *matCellDef="let raw">
               <ul style="text-align:left">
                 <li *ngFor="let item of raw.items">
-                  <span *ngFor="let option of item.productsOptions; let i = index">
-                    {{option.quantity}} - {{option.description |titlecase}}{{i+1 < item.productsOptions.length ? "; ":"."}}
-                  </span>
+                  <ul style="padding-left: 0.5em">
+                    <li *ngFor="let option of item.productsOptions; let i = index" style="list-style-type: none;">
+                      {{option.quantity}} x {{option.description |titlecase}}
+                    </li>
+                  </ul>
+                  
                 </li>
               </ul>
             </td>

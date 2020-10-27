@@ -253,7 +253,6 @@ export class PackagesListComponent implements OnInit {
     let dialogRef: MatDialogRef<PackagesCreateEditComponent>;
     if (edit == true) {
       dialogRef = this.dialog.open(PackagesCreateEditComponent, {
-        width: '350px',
         data: {
           data: { ...pack },
           edit: edit
@@ -274,7 +273,6 @@ export class PackagesListComponent implements OnInit {
     }
     else {
       dialogRef = this.dialog.open(PackagesCreateEditComponent, {
-        width: '350px',
         data: {
           data: null,
           edit: edit
@@ -283,7 +281,7 @@ export class PackagesListComponent implements OnInit {
       dialogRef.afterClosed().subscribe(res => {
         switch (res) {
           case true:
-            this.snackBar.open('El nuevo paquete fue creado satisfactoriamente', 'Aceptar', { duration: 5000 });
+            this.snackBar.open('El paquete fue creado satisfactoriamente', 'Aceptar', { duration: 5000 });
             break;
           case false:
             this.snackBar.open('Ocurrió un error. Por favor, vuelva a intentarlo', 'Aceptar', { duration: 5000 });

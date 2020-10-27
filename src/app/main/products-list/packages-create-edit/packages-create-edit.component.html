@@ -1,65 +1,122 @@
 <div mat-dialog-title>
   <h2 class="ms-font-rubik ms-color-2b" style="font-size:1.2em">
-      <mat-icon style="vertical-align:middle" (click)="deb()">add_circle</mat-icon>
-      {{data.edit?'Editar Paquete':'Crear Paquete'}}
+    <mat-icon style="vertical-align:middle" (click)="deb()">add_circle</mat-icon>
+    {{data.edit?'Editar Paquete':'Crear Paquete'}}
   </h2>
   <mat-divider></mat-divider>
 </div>
 <mat-dialog-content>
-  <form [formGroup]="packageForm"
-      style="display:flex; flex-direction: column;">
+  <form [formGroup]="packageForm" style="display:flex; flex-direction: column;">
 
-      <!-- description  -->
-      <mat-form-field style="margin-bottom: 8px"
-        hintLabel="Máx. 40 carácteres" appearance="outline">
-          <mat-label>Nombre</mat-label>
-          <input #input autocomplete="off" maxlength="40"
-            formControlName="description" type="text"
-              matInput placeholder="Nombre del paquete">
-          <ng-template *ngIf="descriptionFormatting$ | async"></ng-template>
-          <mat-error>
+    <div class="w3-row">
+      <div class="w3-half w3-padding">
+        <div style="display:flex; flex-direction: row; justify-content: space-between; width: 100%">
+          <!-- description  -->
+          <mat-form-field style="margin-bottom: 8px; width: 48%" hintLabel="Máx. 40 carácteres" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input #input autocomplete="off" maxlength="40" formControlName="description" type="text" matInput
+              placeholder="Nombre del paquete">
+            <ng-template *ngIf="descriptionFormatting$ | async"></ng-template>
+            <mat-error>
               <span *ngIf="packageForm.get('description').errors?.required">Campo requerido</span>
-              <span *ngIf="packageForm.get('description').errors?.descriptionRepeatedValidator">Este contenido ya se encuentra repetido.</span>
-          </mat-error>
-          <mat-hint align="end">{{input.value?.length || 0}}/40</mat-hint>
-      </mat-form-field>
+              <span *ngIf="packageForm.get('description').errors?.descriptionRepeatedValidator">Este contenido ya se
+                encuentra
+                repetido.</span>
+            </mat-error>
+            <mat-hint align="end">{{input.value?.length || 0}}/40</mat-hint>
+          </mat-form-field>
 
-      <!-- sku -->
-      <mat-form-field style="margin-bottom: 8px" appearance="outline">
-          <mat-label>SKU</mat-label>
-          <input #input autocomplete="off"
-            formControlName="sku" type="text"
-              matInput placeholder="SKU">
-          <ng-template *ngIf="skuFormatting$ | async"></ng-template>
-          <mat-error>
+          <!-- sku -->
+          <mat-form-field style="margin-bottom: 8px; width: 48%" appearance="outline">
+            <mat-label>SKU</mat-label>
+            <input #input autocomplete="off" formControlName="sku" type="text" matInput placeholder="SKU">
+            <ng-template *ngIf="skuFormatting$ | async"></ng-template>
+            <mat-error>
               <span *ngIf="packageForm.get('sku').errors?.required">Campo requerido</span>
-              <span *ngIf="packageForm.get('sku').errors?.skuRepeatedValidator">Este contenido ya se encuentra repetido.</span>
-          </mat-error>
-      </mat-form-field>
+              <span *ngIf="packageForm.get('sku').errors?.skuRepeatedValidator">Este contenido ya se encuentra
+                repetido.</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-      <!-- Price and unit -->
-      <div style="display:flex; flex-direction: row; justify-content: space-between; width: 100%"> 
-        <!-- price  -->
-        <mat-form-field style="margin-bottom: 8px; width: 48%"
+        <!-- Categories -->
+        <mat-form-field *ngIf="category$ | async as categories" style="margin-bottom: 8px; display:block"
           appearance="outline">
-          <mat-label>Precio (S/.)</mat-label>
-          <input autocomplete="off"
-            formControlName="price" type="number"
-              matInput placeholder="Precio del producto">
+          <mat-label>Categoria</mat-label>
+          <input autocomplete="off" formControlName="category" [matAutocomplete]="categoryAutocomplete" type="text"
+            matInput>
+          <mat-autocomplete autoActiveFirstOption #categoryAutocomplete="matAutocomplete">
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{category}}
+            </mat-option>
+          </mat-autocomplete>
           <mat-error>
-              <span *ngIf="packageForm.get('price').errors?.required">Campo requerido</span>
-              <span *ngIf="packageForm.get('price').errors?.min">Solo positivos</span>
+            <span *ngIf="packageForm.get('category').errors?.required">Por favor, complete el campo.</span>
+            <span *ngIf="packageForm.get('category').errors?.invalid">Dato inválido. Complete con alguna opción
+              válida.</span>
           </mat-error>
         </mat-form-field>
-        
-        <!-- unit  -->
-        <mat-form-field *ngIf="units$ | async as units"
-          style="margin-bottom: 8px; width: 48%"
-          appearance="outline">
+
+        <!-- dateType -->
+        <mat-form-field style="margin-bottom: 8px; display: block" appearance="outline">
+          <mat-label>Tipo de Fecha</mat-label>
+          <mat-select formControlName="dateType">
+            <mat-option *ngFor="let unit of dateType" [value]="unit">
+              {{unit}}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="packageForm.get('dateType').errors?.required">Campo requerido</span>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- dateLimit -->
+        <mat-form-field *ngIf="dateType$ | async" style="margin-bottom: 8px; display: block" appearance="outline">
+          <mat-label>Fecha Límite</mat-label>
+          <input readonly matInput placeholder="Fecha deseada" [min]="dateLimit"
+            [formControl]="packageForm.get('dateLimit')" [satDatepicker]="picker">
+          <sat-datepicker #picker [rangeMode]="false"></sat-datepicker>
+          <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+        </mat-form-field>
+
+
+
+
+        <!-- Photo  -->
+        <div
+          style="display:flex; flex-direction: row; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+          <img class="w3-card-4" (click)="photoURL.click()" *ngIf="packageForm.get('photoURL').value!=null"
+            style="width: 100%;" [src]="packageForm.get('photoURL').value" alt="fotografía">
+          <img class="w3-card-4" (click)="photoURL.click()" *ngIf="packageForm.get('photoURL').value==null"
+            style="width: 70%; padding: 2em;" [src]="noImage" alt="sin fotografía">
+
+          <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async" style="width:100%" mode="indeterminate">
+          </mat-progress-bar>
+          <span *ngIf="photos.resizing$.photoURL | async" class="w3-small ms-color-11 ms-font-montserrat"
+            style="width:100%">*comprimiendo</span>
+          <input style="display: none" #photoURL type="file" accept='image/*'
+            (change)="addNewPhoto('photoURL', photoURL.files)" />
+        </div>
+
+      </div>
+      <div class="w3-half w3-padding">
+        <!-- Price and unit -->
+        <div style="display:flex; flex-direction: row; justify-content: space-between; width: 100%">
+          <!-- price  -->
+          <mat-form-field style="margin-bottom: 8px; width: 48%" appearance="outline">
+            <mat-label>Precio (S/.)</mat-label>
+            <input autocomplete="off" formControlName="price" type="number" matInput placeholder="Precio del producto">
+            <mat-error>
+              <span *ngIf="packageForm.get('price').errors?.required">Campo requerido</span>
+              <span *ngIf="packageForm.get('price').errors?.min">Solo positivos</span>
+            </mat-error>
+          </mat-form-field>
+
+          <!-- unit  -->
+          <mat-form-field *ngIf="units$ | async as units" style="margin-bottom: 8px; width: 48%" appearance="outline">
             <mat-label>Unidad</mat-label>
             <mat-select formControlName="unit">
-              <mat-option (click)="onAddUnit()"
-                [value]="">
+              <mat-option (click)="onAddUnit()" [value]="">
                 <mat-icon>add_circle_outline</mat-icon>Añadir
               </mat-option>
               <mat-option *ngFor="let unit of units" [value]="unit">
@@ -67,146 +124,96 @@
               </mat-option>
             </mat-select>
             <mat-error>
-                <span *ngIf="packageForm.get('unit').errors?.required">Campo requerido</span>
+              <span *ngIf="packageForm.get('unit').errors?.required">Campo requerido</span>
             </mat-error>
-        </mat-form-field>
-      </div>
+          </mat-form-field>
+        </div>
 
-       <!-- Categories -->
-       <mat-form-field *ngIf="category$ | async as categories"
-       style="margin-bottom: 8px; display:block" appearance="outline">
-         <mat-label>Categoria</mat-label>
-         <input autocomplete="off"
-           formControlName="category"
-           [matAutocomplete]="categoryAutocomplete"
-           type="text" matInput>
-         <mat-autocomplete 
-           autoActiveFirstOption   
-           #categoryAutocomplete="matAutocomplete">
-           <mat-option *ngFor="let category of categories"
-             [value]="category">
-             {{category}}
-           </mat-option>
-         </mat-autocomplete>
-         <mat-error>
-           <span *ngIf="packageForm.get('category').errors?.required">Por favor, complete el campo.</span>
-           <span *ngIf="packageForm.get('category').errors?.invalid">Dato inválido. Complete con alguna opción válida.</span>
-         </mat-error>
-     </mat-form-field>
-
-      <!-- dateType -->
-      <mat-form-field style="margin-bottom: 8px" appearance="outline">
-        <mat-label>Tipo de Fecha</mat-label>
-        <mat-select formControlName="dateType">
-          <mat-option *ngFor="let unit of dateType" [value]="unit">
-            {{unit}}
-          </mat-option>
-        </mat-select>
-        <mat-error>
-            <span *ngIf="packageForm.get('dateType').errors?.required">Campo requerido</span>
-        </mat-error>
-      </mat-form-field>
-
-      <!-- dateLimit -->
-      <mat-form-field *ngIf="dateType$ | async"
-        style="margin-bottom: 8px" appearance="outline">
-        <mat-label>Fecha Límite</mat-label>
-        <input readonly matInput placeholder="Fecha deseada" [min]="dateLimit"
-          [formControl]="packageForm.get('dateLimit')" [satDatepicker]="picker">
-        <sat-datepicker #picker [rangeMode]="false"></sat-datepicker>
-        <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
-      </mat-form-field>
-
-      <!-- totalItems -->
-      <mat-form-field style="margin-bottom: 8px" appearance="outline">
-        <mat-label>Número total de Items</mat-label>
-        <mat-select style="text-align: center;" formControlName="totalItems">
-          <mat-option style="text-align: center;" *ngFor="let number of maxItems" [value]="number">
-            {{number}}
-          </mat-option>
-        </mat-select>
-        <mat-error>
-          <span *ngIf="packageForm.get('totalItems').errors?.required">Campo requerido</span>
-          <span *ngIf="packageForm.get('totalItems').errors?.min">Más de 1.</span>
-        </mat-error>
-        <mat-hint>Seleccione el número de items del paquete.</mat-hint>
-      </mat-form-field>
-
-      <ng-container *ngIf="totalItems$ | async"></ng-container>
-      <!-- itemsFormArray -->
-      <form *ngFor="let group of itemsFormArray.controls; let i = index"
-        [formGroup]="group" style="margin-bottom: 8px">
-          <div><strong>Item n° {{i+1}}</strong></div>
-         
-          <div class="ms-flex" style="flex-direction: row; justify-content: space-between; width: 100%"> 
-            <mat-form-field class="w3-small" style="width: 65%"
-            appearance="outline">
-            <mat-label>Producto</mat-label>
-            <input type="text" matInput
-            formControlName="textInput"
-            [matAutocomplete]="auto">
-            <mat-autocomplete 
-            #auto="matAutocomplete" autoActiveFirstOption 
-            [displayWith]="displayFn.bind(this)">
-            <mat-option *ngFor="let product of productsListAutocompletes$[i] | async" [value]="product">
-              {{product.description | titlecase}}
+        <!-- totalItems -->
+        <mat-form-field style="margin-bottom: 8px; display: block" appearance="outline">
+          <mat-label>Número total de slots</mat-label>
+          <mat-select style="text-align: center;" formControlName="totalItems">
+            <mat-option style="text-align: center;" *ngFor="let number of maxItems" [value]="number">
+              {{number}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="packageForm.get('totalItems').errors?.required">Campo requerido</span>
+            <span *ngIf="packageForm.get('totalItems').errors?.min">Más de 1.</span>
+          </mat-error>
+          <mat-hint>Seleccione el número de slots del paquete.</mat-hint>
         </mat-form-field>
-            <mat-form-field style="width: 30%"
-              appearance="outline" class="w3-small">
-                <mat-label>Cantidad</mat-label>
-                <input type="number" formControlName="quantityInput" autocomplete="off" matInput >
-                
+
+        <ng-container *ngIf="totalItems$ | async"></ng-container>
+        <!-- itemsFormArray -->
+        <form *ngFor="let group of itemsFormArray.controls; let i = index" [formGroup]="group" class="mat-elevation-z4"
+          style="margin-bottom: 8px; padding: 12px; border-radius: 10px; border: 1px solid lightgrey;">
+          <div style="margin-bottom: 8px;"><strong>Slot n° {{i+1}} </strong> <span class="w3-small"> ( Los productos que
+              agregue aparecerán en el selector )</span></div>
+
+          <div class="ms-flex" style="flex-direction: row; justify-content: space-between; width: 100%">
+            <mat-form-field class="w3-small" style="width: 65%" appearance="outline">
+              <mat-label>Producto</mat-label>
+              <input type="text" matInput formControlName="textInput" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption [displayWith]="displayFn.bind(this)">
+                <mat-option *ngFor="let product of productsListAutocompletes$[i] | async" [value]="product">
+                  {{product.description | titlecase}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
-            
+            <mat-form-field style="width: 30%" appearance="outline" class="w3-small">
+              <mat-label>Cantidad</mat-label>
+              <input type="number" formControlName="quantityInput" autocomplete="off" matInput>
+
+            </mat-form-field>
+
           </div>
-          <button mat-flat-button class="w3-small w3-block w3-margin-bottom" color="primary" (click)="onSelectProduct( group)">Agregar</button>
-          
+          <button mat-flat-button class="w3-small w3-block w3-margin-bottom" color="primary"
+            (click)="onSelectProduct( group)">Agregar</button>
+
           <div *ngIf="group.get('productsOptions').value.length; else emptyProducts">
             <mat-divider></mat-divider>
             <div *ngFor="let product of group.get('productsOptions').value" class="ms-flex w3-margin-top">
               <div style="width: 90%;">
-                {{product.quantity}} - {{product.description | titlecase}}
+                {{product.quantity}} x {{product.description | titlecase}}
               </div>
               <div>
-                <mat-icon class="removeIcon"
-                (click)="onRemoveProduct(product,group)">
-                remove_circle
-              </mat-icon>
+                <mat-icon class="removeIcon" (click)="onRemoveProduct(product,group)">
+                  remove_circle
+                </mat-icon>
               </div>
             </div>
           </div>
           <ng-template #emptyProducts>
-            <strong>Seleccione sus productos a incluir.</strong>
-          </ng-template>
-          <hr/>
-          <!--mat-error>
-            <span *ngIf="group.get('productsOptions').errors?.minInputsValidator">
-              Seleccionar por lo menos 1 producto.
-            </span>
-          </mat-error>
-          <mat-hint>Seleccione sus productos a incluir.</mat-hint-->
-          
-      </form>
-      
-      <!-- Photo  -->
-      <div style="display:flex; flex-direction: row; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
-          <img class="w3-card-4" (click)="photoURL.click()"
-              *ngIf="packageForm.get('photoURL').value!=null" style="width: 100%;"
-              [src]="packageForm.get('photoURL').value" alt="fotografía">
-          <img class="w3-card-4" (click)="photoURL.click()"
-              *ngIf="packageForm.get('photoURL').value==null" style="width: 100%;"
-              [src]="noImage" alt="sin fotografía">
+            <div class="w3-center">
+              <img src="../../../../assets/svg/empty-list.svg" alt="lista vacía" style="width: 100px;">
+            </div>
 
-          <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async"
-          style="width:100%" mode="indeterminate">
-          </mat-progress-bar>
-          <span *ngIf="photos.resizing$.photoURL | async" 
-          class="w3-small ms-color-11 ms-font-montserrat" style="width:100%">*comprimiendo</span>
-          <input style="display: none" #photoURL type="file" accept='image/*' 
-            (change)="addNewPhoto('photoURL', photoURL.files)"/>
+            <p class="w3-text-lightgray w3-center"><strong>Agregue productos al slot </strong></p>
+          </ng-template>
+          <hr />
+          <!--mat-error>
+        <span *ngIf="group.get('productsOptions').errors?.minInputsValidator">
+          Seleccionar por lo menos 1 producto.
+        </span>
+      </mat-error>
+      <mat-hint>Seleccione sus productos a incluir.</mat-hint-->
+
+        </form>
+
+
       </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -217,5 +224,5 @@
 <mat-dialog-actions align="end">
   <button mat-stroked-button class="w3-margin-right" mat-dialog-close>Cancelar</button>
   <button mat-raised-button color="accent" (click)="onSubmitForm(null)" type="button"
-      [disabled]="!packageForm.valid || !itemsFormArray.valid">Guardar</button>
+    [disabled]="!packageForm.valid || !itemsFormArray.valid">Guardar</button>
 </mat-dialog-actions>
