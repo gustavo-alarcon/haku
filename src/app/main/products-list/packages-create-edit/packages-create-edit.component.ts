@@ -40,7 +40,7 @@ export class PackagesCreateEditComponent implements OnInit {
   productsList$: Observable<Product[]>
   productsListAutocompletes$: Observable<Product[]>[];
 
-  noImage = '../../../../assets/images/no-image.png';
+  noImage = '../../../../assets/svg/no-image.svg';
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   photos: {
@@ -86,6 +86,7 @@ export class PackagesCreateEditComponent implements OnInit {
       this.data.data.items.forEach(el => {
         this.itemsFormArray.push(this.fb.group({
           textInput: [''],
+          quantityInput: [1],
           productsOptions: [el.productsOptions, this.minInputsValidator()]
         }))
       })
@@ -111,7 +112,6 @@ export class PackagesCreateEditComponent implements OnInit {
             disabled: this.data.data.dateLimit ? false : true,
           }, Validators.required],
         totalItems: [this.data.data.totalItems, [Validators.required, Validators.min(1)]],
-        additionalDescription:[this.data.data.additionalDescription],
         photoURL: [this.data.data.photoURL, Validators.required],
       })
     }
@@ -138,7 +138,6 @@ export class PackagesCreateEditComponent implements OnInit {
             disabled: true,
           }, Validators.required],
         totalItems: [0, [Validators.required, Validators.min(1)]],
-        additionalDescription:[null],
         photoURL: [null, Validators.required],
       })
 
@@ -216,6 +215,7 @@ export class PackagesCreateEditComponent implements OnInit {
         for(let i=0; i<total; i++){
           this.itemsFormArray.push(this.fb.group({
             textInput: [''],
+            quantityInput: [1],
             productsOptions: [[], this.minInputsValidator()]
           }))
         }
@@ -245,7 +245,7 @@ export class PackagesCreateEditComponent implements OnInit {
     )
     formGroup.get('productsOptions').setValue(removedList)
   }
-
+/*
   onAddProduct(auto: MatAutocomplete, event: MatChipInputEvent, formGroup: FormGroup){
     let options = auto.options;
     if(options.length){
@@ -253,15 +253,24 @@ export class PackagesCreateEditComponent implements OnInit {
       this.onSelectProduct(options.first.value, formGroup)
     }
     event.input.value = "";
-  }
+  }*/
 
-  onSelectProduct(product: Product, formGroup: FormGroup){
+  onSelectProduct( formGroup: FormGroup){
+    let product=formGroup.get('textInput').value
+    if(product){
+      let quant=formGroup.get('quantityInput').value
+    product['quantity'] = quant
+    console.log(product);
+    
     let initList = (<Product[]>formGroup.get('productsOptions').value);
     if(!initList.find(el => el.id == product.id)){
       initList.unshift(product)
       formGroup.get('productsOptions').setValue(initList);
     }
     formGroup.get('textInput').setValue("");
+    formGroup.get('quantityInput').setValue(1);
+    }
+    
   }
 
   onAddUnit() {
@@ -307,7 +316,7 @@ export class PackagesCreateEditComponent implements OnInit {
       package: true,
       id: null,
       description: this.packageForm.get('description').value.trim().toLowerCase(),
-      additionalDescription: this.packageForm.get('additionalDescription').value.trim(),
+      additionalDescription: '',
       sku: this.packageForm.get('sku').value,
       price: this.packageForm.get('price').value,
       unit: this.packageForm.get('unit').value,

@@ -30,7 +30,7 @@
               [offset]="100" alt="fotografía">
               
           <img class="w3-card-4" (click)="photoURL.click()"
-              *ngIf="group.get('photoURL').value==null" style="width: 100%;"
+              *ngIf="group.get('photoURL').value==null" style="width: 100%; padding: 2em;"
               [src]="noImage" alt="sin fotografía">
 
           <div *ngIf="group.get('resizing').valueChanges | async" style="width:100%">

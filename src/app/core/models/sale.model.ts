@@ -1,6 +1,6 @@
 import { User } from 'src/app/core/models/user.model';
 import { Product } from './product.model';
-import { Package } from './package.model';
+import { Package, PackageItems } from './package.model';
 
 export class saleStatusOptions {
   requested = 'Solicitado';
@@ -23,7 +23,7 @@ export interface SaleRequestedProducts {
   //If "product" is a package, we will have to specify the chosen products
   //for each field in package.items. chosenOptions will contain the
   //chosen products in the same order as each field in package.items.
-  chosenOptions?: Product[];
+  chosenOptions?: PackageItems["productsOptions"][0][];
 }
 
 export interface Sale {

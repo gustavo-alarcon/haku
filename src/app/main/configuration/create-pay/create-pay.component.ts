@@ -20,7 +20,7 @@ export class CreatePayComponent implements OnInit {
 
   payForm: FormGroup
 
-  noImage = '../../../../assets/images/no-image.png';
+  noImage = '../../../../assets/svg/no-image.svg';
 
   photos: {
     resizing$: {

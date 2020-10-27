@@ -27,6 +27,8 @@ export class ShoppingCartComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.order);
+    
     this.total = this.order.map(el => this.giveProductPrice(el)).reduce((a, b) => a + b, 0)
     
   }
@@ -34,9 +36,9 @@ export class ShoppingCartComponent implements OnInit {
   getUnit(quantity: number, unit: Unit) {
     if (unit.weight == 1) {
       if (quantity > 1) {
-        return unit.description + 's'
+        return unit.abbreviation + 's'
       } else {
-        return unit.description
+        return unit.abbreviation
       }
     } else {
       return '(' + unit.description + ')'

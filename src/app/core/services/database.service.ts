@@ -11,7 +11,7 @@ import { Recipe } from '../models/recipe.model';
 import { Unit, PackageUnit } from '../models/unit.model';
 import { Buy, BuyRequestedProduct } from '../models/buy.model';
 import * as firebase from 'firebase'
-import { Package } from '../models/package.model';
+import { Package, PackageItems } from '../models/package.model';
 import { Ticket } from '../models/ticket.model';
 import { StoreSale } from '../models/storeSale.model';
 
@@ -19,7 +19,7 @@ import { StoreSale } from '../models/storeSale.model';
   providedIn: 'root'
 })
 export class DatabaseService {
-  public version: string = 'V1.0.4r';
+  public version: string = 'V1.0.5r';
   public isOpen: boolean = false;
   public isAdmin: boolean = false;
 
@@ -678,19 +678,72 @@ export class DatabaseService {
     let dec = decrease ? -1 : 1;
     let requestedProductRef: DocumentReference;
 
-    requestedProducts.forEach(product => {
+    requestedProducts.forEach((product) => {
       if (!product.product.package) {
         requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(product.product.id)
         batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
       } else {
-        product.chosenOptions.forEach(opt => {
+        product.chosenOptions.forEach((opt, index) => {
           requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(opt.id)
-          batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(dec * product.quantity) });
+          
+          batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(
+            dec * product.quantity * opt.quantity
+            ) });
         })
       }
     })
 
     return batch;
+  }
+
+  onDoubleUpdateStock(requestedProductsToDecrease: Sale['requestedProducts'],
+    requestedProductsToIncrease: Sale['requestedProducts'],
+    batch: firebase.firestore.WriteBatch){
+      let requestedProductRef: DocumentReference;
+
+      let productList: {productId: string; amount: number}[] = [];
+      let foundProduct: {productId: string; amount: number} = null
+
+      let productId: string=null;
+
+      [...requestedProductsToDecrease.map(el => ({...el, decrease: true})), 
+        ...requestedProductsToIncrease.map(el => ({...el, decrease: false}))].forEach(product => {
+
+        if (!product.product.package) {
+
+          productId = product.product.id
+          foundProduct = productList.find(el => el.productId == productId)
+
+          if(foundProduct){
+            foundProduct.amount += product.decrease ? (-1)*product.quantity : product.quantity
+          } else {
+            productList.push({productId: productId, 
+              amount: product.decrease ? (-1)*product.quantity : product.quantity})
+          }
+
+        } else {
+          product.chosenOptions.forEach((opt, index) => {
+            
+            productId = opt.id
+            foundProduct = productList.find(el => el.productId == productId)
+
+            if(foundProduct){
+              foundProduct.amount += product.decrease ? (-1)*opt.quantity*product.quantity : opt.quantity*product.quantity
+            } else {
+              productList.push({productId: productId, 
+                amount: product.decrease ? (-1)*opt.quantity*product.quantity : opt.quantity*product.quantity})
+            }
+
+          })
+        }
+      })
+
+      productList.forEach(el => {
+        requestedProductRef = this.afs.firestore.collection(this.productsListRef).doc(el.productId)
+        batch.update(requestedProductRef, { realStock: firebase.firestore.FieldValue.increment(el.amount) });
+      })
+      console.log(productList);
+      return batch
   }
 
   //configuracion
@@ -762,4 +815,19 @@ export class DatabaseService {
     return this.afs.doc<Product>(`${this.productsListRef}/${id}`)
       .valueChanges().pipe(shareReplay(1));
   }
+
+  getPackage(id): Observable<Package> {
+    return this.afs.doc<Package>(`${this.packagesListRef}/${id}`)
+      .valueChanges().pipe(shareReplay(1));
+  }
+
+  getItemsPackage(array): Observable<Product[]> {
+    return this.afs
+      .collection<Product>(this.productsListRef, (ref) =>
+        ref.where("id", "in", array)
+      )
+      .valueChanges()
+      .pipe(shareReplay(1));
+  }
+
 }

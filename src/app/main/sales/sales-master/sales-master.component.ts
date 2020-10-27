@@ -88,7 +88,7 @@ export class SalesMasterComponent implements OnInit {
           let order = sales.sort((a, b) => Number(b.correlative) - Number(a.correlative))
           if (saleState == 'Todos') {
             if (this.totalPriceSubject) {
-              this.totalPriceSubject.next(this.giveTotalSalesPrice(order))
+              this.totalPriceSubject.next(this.giveTotalSalesPrice(order.filter(el => el.status !== 'Anulado')))
             }
 
             return order.filter(el => {

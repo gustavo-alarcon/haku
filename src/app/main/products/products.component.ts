@@ -69,47 +69,19 @@ export class ProductsComponent implements OnInit {
     ).pipe(
       map(([route, products, packages, search]) => {
         let publish = products.filter(el => route ? el.category == route : true).filter(el => el.published)
-        let packPublish = [...packages].filter(el => el.published).map(el => {
-          el['items'] = el.items.map(el => {
-            let options = [...el.productsOptions].map(ul => {
-              let productOp = products.filter(lo => lo.id == ul.id)[0]
-              return productOp
-            })
-
-            // let select = options.filter(lu => (lu.realStock >= lu.sellMinimum) && lu.published)[0]
-            let select = options.filter(lu => (lu?.realStock >= lu?.sellMinimum))[0]
-            return {
-              productsOptions: options,
-              choose: select
-            }
-          })
-
-          return el
-        }).filter(el => route ? el.category == route : true)
+        let packPublish = [...packages].filter(el => !el.published).filter(el => route ? el.category == route : true)
 
         let any = [].concat(packPublish, publish)
-
-        if (this.dbs.order.length == 0 && localStorage.getItem('order')) {
-
-          let number = Number(localStorage.getItem('length'))
-          for (let index = 0; index < number; index++) {
-            if (localStorage.getItem('order' + index + 'chosen')) {
-              let chosen = localStorage.getItem('order' + index + 'chosen').split(',')
-              this.dbs.order[index] = {
-                product: packPublish.filter(el => el.id == localStorage.getItem('order' + index))[0],
-                quantity: Number(localStorage.getItem('order' + index + 'q')),
-                chosenOptions: products.filter(el => chosen.includes(el.id))
-              }
-            } else {
-              this.dbs.order[index] = {
-                product: products.filter(el => el.id == localStorage.getItem('order' + index))[0],
-                quantity: Number(localStorage.getItem('order' + index + 'q'))
-              }
-            }
+        if (this.dbs.order.length == 0 && localStorage.getItem('order') && localStorage.getItem('dbsorder')) {
+          let guardado = localStorage.getItem('dbsorder')
+          let neworder = JSON.parse(guardado)
+          this.dbs.order = neworder
+          if (this.dbs.order.length) {
+            this.dbs.view.next(2)
+            this.dbs.total = this.dbs.order.map(el => this.giveProductPrice(el)).reduce((a, b) => a + b, 0)
+            this.dbs.sum.next(this.dbs.total)
           }
-          this.dbs.view.next(2)
-          this.dbs.total = this.dbs.order.map(el => this.giveProductPrice(el)).reduce((a, b) => a + b, 0)
-          this.dbs.sum.next(this.dbs.total)
+
         }
 
         return any.filter(el => search ? el.description.toLowerCase().includes(search) : true)

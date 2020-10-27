@@ -33,7 +33,7 @@
                 <div *ngIf="products$ | async as products; else load">
                     <div *ngIf="products.length > 0; else noResult" class="ms-flex"
                         style="justify-content: space-evenly;">
-                        <app-product-div [product]="product" [buttonAdd]="true" [maxWeight]="maxWeight"
+                        <app-product-div [id]="product.id" [buttonAdd]="true" [maxWeight]="maxWeight"
                             [package]="product.package?true:false"
                             *ngFor="let product of products| paginate: { itemsPerPage: 12, currentPage: p }"
                             class="product-div">

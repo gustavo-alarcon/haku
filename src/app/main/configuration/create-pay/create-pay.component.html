@@ -30,7 +30,7 @@
             <img class="w3-card-4" (click)="photoURL.click()" *ngIf="payForm.get('photoURL').value!=null"
                 style="width: 200px;" [src]="payForm.get('photoURL').value" alt="fotografía">
             <img class="w3-card-4" (click)="photoURL.click()" *ngIf="payForm.get('photoURL').value==null"
-                style="width: 200px;" [src]="noImage" alt="sin fotografía">
+                style="width: 200px; padding: 1em;" [src]="noImage" alt="sin fotografía">
 
             <mat-progress-bar *ngIf="photos?.resizing$.photoURL | async" mode="indeterminate">
             </mat-progress-bar>

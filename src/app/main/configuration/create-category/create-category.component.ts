@@ -19,7 +19,7 @@ export class CreateCategoryComponent implements OnInit {
 
   categoryForm: FormGroup
 
-  noImage = '../../../../assets/images/no-image.png';
+  noImage = '../../../../assets/svg/no-image.svg';
 
   photos: {
     resizing$: {
