@@ -69,7 +69,7 @@ export class ProductsComponent implements OnInit {
     ).pipe(
       map(([route, products, packages, search]) => {
         let publish = products.filter(el => route ? el.category == route : true).filter(el => el.published)
-        let packPublish = [...packages].filter(el => !el.published).filter(el => route ? el.category == route : true)
+        let packPublish = [...packages].filter(el => el.published).filter(el => route ? el.category == route : true)
 
         let any = [].concat(packPublish, publish)
         if (this.dbs.order.length == 0 && localStorage.getItem('order') && localStorage.getItem('dbsorder')) {
