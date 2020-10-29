@@ -16,7 +16,7 @@
                 <div *ngIf="packageDisabled(product)" class="product__provision">
                     En abastecimiento</div>
             </div>
-            <p class="product__paragraph product__paragraph--pack">
+            <p *ngIf="!package" class="product__paragraph product__paragraph--pack">
                 {{product.additionalDescription}}</p>
             <div *ngIf="package" class="product__choose ms-flex ms-flex--center">
                 <div style="width: 100%;">
