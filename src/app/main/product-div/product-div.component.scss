@@ -7,6 +7,10 @@
 
     &--package{
         max-height: 450px;
+        min-height: 260px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
     }
 
     &--product{
