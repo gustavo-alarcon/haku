@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "24multiservicios": {
+    "haku": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/24multiservicios",
+            "outputPath": "dist/haku",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "24multiservicios:build"
+            "browserTarget": "haku:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "24multiservicios:build:production"
+              "browserTarget": "haku:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "24multiservicios:build"
+            "browserTarget": "haku:build"
           }
         },
         "test": {
@@ -114,11 +114,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "24multiservicios:serve"
+            "devServerTarget": "haku:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "24multiservicios:serve:production"
+              "devServerTarget": "haku:serve:production"
             }
           }
         },
@@ -129,5 +129,5 @@
       }
     }
   },
-  "defaultProject": "24multiservicios"
+  "defaultProject": "haku"
 }

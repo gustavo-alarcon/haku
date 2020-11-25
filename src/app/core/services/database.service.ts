@@ -56,13 +56,13 @@ export class DatabaseService {
     this.opening$ = this.getOpening();
   }
 
-  productsListRef = `db/24multiservicios/productsList`;
-  packagesListRef = `db/24multiservicios/packagesList`;
-  recipesRef = `db/24multiservicios/recipes`;
-  buysRef = `db/24multiservicios/buys`;
-  salesRef = `db/24multiservicios/sales`;
-  storeSalesRef = `db/24multiservicios/storeSales`;
-  configRef = `db/24multiservicios/config`;
+  productsListRef = `db/haku/productsList`;
+  packagesListRef = `db/haku/packagesList`;
+  recipesRef = `db/haku/recipes`;
+  buysRef = `db/haku/buys`;
+  salesRef = `db/haku/sales`;
+  storeSalesRef = `db/haku/storeSales`;
+  configRef = `db/haku/config`;
   generalConfigDoc = this.afs.collection(this.configRef).doc<GeneralConfig>('generalConfig');
 
   changeTitle(newTitle: string): void {
@@ -526,7 +526,7 @@ export class DatabaseService {
   }
 
   getSalesUser(user: string): Observable<Sale[]> {
-    return this.afs.collection<Sale>(`/db/24multiservicios/sales`,
+    return this.afs.collection<Sale>(`/db/haku/sales`,
       ref => ref.where("user.uid", "==", user)).valueChanges()
   }
 
@@ -748,7 +748,7 @@ export class DatabaseService {
 
   //configuracion
   getDistricts(): Observable<any> {
-    return this.afs.collection(`/db/24multiservicios/config`).doc('generalConfig').valueChanges()
+    return this.afs.collection(`/db/haku/config`).doc('generalConfig').valueChanges()
       .pipe(
         map(res => res['districts']),
         map(res => {
@@ -770,7 +770,7 @@ export class DatabaseService {
   }
 
   getPayments(): Observable<any> {
-    return this.afs.collection(`/db/24multiservicios/config`).doc('generalConfig').valueChanges()
+    return this.afs.collection(`/db/haku/config`).doc('generalConfig').valueChanges()
       .pipe(
         map(res => res['payments']),
         map(res => {

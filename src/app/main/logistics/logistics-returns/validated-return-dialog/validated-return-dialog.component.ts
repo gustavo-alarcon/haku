@@ -107,8 +107,8 @@ export class ValidatedReturnDialogComponent implements OnInit {
     this.loading.next(true)
     this.validatedFormGroup.markAsPending();
     this.validatedFormGroup.disable()
-    const requestRef = this.af.firestore.collection(`/db/24multiservicios/buys`).doc(this.data.item.buyId);
-    const requestProductRef = this.af.firestore.collection(`/db/24multiservicios/buys/${this.data.item.buyId}/buyRequestedProducts`).doc(this.data.item.id);
+    const requestRef = this.af.firestore.collection(`/db/haku/buys`).doc(this.data.item.buyId);
+    const requestProductRef = this.af.firestore.collection(`/db/haku/buys/${this.data.item.buyId}/buyRequestedProducts`).doc(this.data.item.id);
 
     combineLatest(
       this.auth.user$,
@@ -136,7 +136,7 @@ export class ValidatedReturnDialogComponent implements OnInit {
         })
       )
     ).pipe(take(1)).subscribe(([user, res]) => {
-      const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(this.data.item.id);
+      const ref = this.af.firestore.collection(`/db/haku/productsList`).doc(this.data.item.id);
       this.af.firestore.runTransaction((transaction) => {
         return transaction.get(ref).then((prodDoc) => {
           let newStock = prodDoc.data().realStock + this.getStock();

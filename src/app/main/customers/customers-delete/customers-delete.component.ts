@@ -40,7 +40,7 @@ export class CustomersDeleteComponent implements OnInit {
     this.loading.next(true)
     console.log(this.data.uid);
     
-    this.http.post(`https://us-central1-24multiservicios.cloudfunctions.net/msDeleteUser?uid=${this.data.uid}`
+    this.http.post(`https://us-central1-haku.cloudfunctions.net/msDeleteUser?uid=${this.data.uid}`
       , this.data
       , this.httpOptions)
       .pipe(

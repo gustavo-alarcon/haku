@@ -394,7 +394,7 @@ export class PurchaseComponent implements OnInit {
     this.af.firestore.runTransaction((transaction) => {
       let promises = []
       reduceOrder.forEach((order, ind) => {
-        const sfDocRef = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(order.product.id);
+        const sfDocRef = this.af.firestore.collection(`/db/haku/productsList`).doc(order.product.id);
 
         promises.push(transaction.get(sfDocRef).then((prodDoc) => {
 
@@ -418,8 +418,8 @@ export class PurchaseComponent implements OnInit {
   }
 
   savePurchase() {
-    const saleCount = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
-    const saleRef = this.af.firestore.collection(`/db/24multiservicios/sales`).doc();
+    const saleCount = this.af.firestore.collection(`/db/haku/config/`).doc('generalConfig');
+    const saleRef = this.af.firestore.collection(`/db/haku/sales`).doc();
 
     let newSale: Sale = {
       id: saleRef.id,
@@ -582,8 +582,8 @@ export class PurchaseComponent implements OnInit {
   // save() {
   //   this.loading.next(true)
 
-  //   const saleCount = this.af.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
-  //   const saleRef = this.af.firestore.collection(`/db/24multiservicios/sales`).doc();
+  //   const saleCount = this.af.firestore.collection(`/db/haku/config/`).doc('generalConfig');
+  //   const saleRef = this.af.firestore.collection(`/db/haku/sales`).doc();
 
   //   let newSale: Sale = {
   //     id: saleRef.id,
@@ -693,7 +693,7 @@ export class PurchaseComponent implements OnInit {
   //         }).filter((dish, index, array) => array.findIndex(el => el.product['id'] === dish.product['id']) === index)
 
   //         this.order.forEach((order, ind) => {
-  //           const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(order.product.id);
+  //           const ref = this.af.firestore.collection(`/db/haku/productsList`).doc(order.product.id);
   //           this.af.firestore.runTransaction((transaction) => {
   //             return transaction.get(ref).then((prodDoc) => {
   //               let newStock = prodDoc.data().realStock - order.quantity;
@@ -780,7 +780,7 @@ export class PurchaseComponent implements OnInit {
   //       }).filter((dish, index, array) => array.findIndex(el => el.product['id'] === dish.product['id']) === index)
 
   //       this.order.forEach((order, ind) => {
-  //         const ref = this.af.firestore.collection(`/db/24multiservicios/productsList`).doc(order.product.id);
+  //         const ref = this.af.firestore.collection(`/db/haku/productsList`).doc(order.product.id);
   //         this.af.firestore.runTransaction((transaction) => {
   //           return transaction.get(ref).then((prodDoc) => {
   //             let newStock = prodDoc.data().realStock - order.quantity;
