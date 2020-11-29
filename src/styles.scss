@@ -12,30 +12,18 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$mat-multiservicios-primary-palette: (
-  50:#e5e9f1,
-  100:#bec8dd,
-  200:#94a4c6,
-  300: #6b81af,
-  400: #4b67a0,
-  500: #264e91,
-  600:#1f4689,
-  700: #143d7d,
-  800:#0b3471,
-  900: #00245a,
-  A100: #bec8dd,
-  A200: #94a4c6,
-  A400: #4b67a0,
-  A700: #143d7d,
+$mat-haku-primary-palette: (
+  500: #eeebd0,
+  700: #bbb99f,
   contrast: (
     50: #000000,
     100: #000000,
-    200: #000000,
+    200: #bcbcbc,
     300: #000000,
     400: #000000,
-    500: #ffffff,
+    500: #2b2b2b,
     600: #ffffff,
-    700: #ffffff,
+    700: #111111,
     800: #ffffff,
     900: #ffffff,
     A100: #000000,
@@ -45,21 +33,9 @@ $mat-multiservicios-primary-palette: (
   ),
 );
 
-$mat-multiservicios-accent-palette: (
-  50: #ddf5ef,
-  100: #aae6d6,
-  200:#6ed6bc,
-  300:#03c4a1,
-  400: #00b68c,
-  500: #00a67a,
-  600:#00996d,
-  700: #00885e,
-  800: #007850,
-  900: #005b33,
-  A100: #aae6d6,
-  A200: #6ed6bc,
-  A400: #00b68c,
-  A700: #00885e,
+$mat-haku-accent-palette: (
+  500: #7d6167,
+  700: #50373d,
   contrast: (
     50: #000000,
     100: #000000,
@@ -78,23 +54,23 @@ $mat-multiservicios-accent-palette: (
   ),
 );
 
-$multiservicios-primary: mat-palette($mat-multiservicios-primary-palette);
-$multiservicios-accent: mat-palette($mat-multiservicios-accent-palette);
+$haku-primary: mat-palette($mat-haku-primary-palette);
+$haku-accent: mat-palette($mat-haku-accent-palette);
 
 // The warn palette is optional (defaults to red).
-$multiservicios-warn: mat-palette($mat-red, 400, 100, 700);
+$haku-warn: mat-palette($mat-red, 400, 100, 700);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$multiservicios-light-theme: mat-light-theme($multiservicios-primary, $multiservicios-accent, $multiservicios-warn);
-$multiservicios-dark-theme: mat-dark-theme($multiservicios-primary, $multiservicios-accent, $multiservicios-warn);
+$haku-light-theme: mat-light-theme($haku-primary, $haku-accent, $haku-warn);
+$haku-dark-theme: mat-dark-theme($haku-primary, $haku-accent, $haku-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($multiservicios-light-theme);
+@include angular-material-theme($haku-light-theme);
 
 //Saturn
-@include sat-datepicker-theme($multiservicios-light-theme);
+@include sat-datepicker-theme($haku-light-theme);
 
 /* You can add global styles to this file, and also import other style files */
 .background-color {
@@ -106,8 +82,8 @@ $multiservicios-dark-theme: mat-dark-theme($multiservicios-primary, $multiservic
 }
 
 .dark-theme {
-  @include angular-material-theme($multiservicios-dark-theme);
-  @include sat-datepicker-theme($multiservicios-dark-theme);
+  @include angular-material-theme($haku-dark-theme);
+  @include sat-datepicker-theme($haku-dark-theme);
 
   .meraki__logo {
     filter: invert(1);
@@ -138,10 +114,10 @@ a {
 }
 
 :root {
-  --primary-color: #1a237e;
-  --accent-color: #03c4a1;
+  --primary-color: #EEEBD0;
+  --accent-color: #7D6167;
   --warn-color: #ef5350;
-  --forth-color: #1a237e;
+  --forth-color: #CFBCDF;
 }
 
 .ms-flex {
@@ -239,7 +215,7 @@ a {
 }
 
 .mat-divider {
-  border-top: 4px solid var(--primary-color) !important;
+  // border-top: 4px solid var(--accent-color) !important;
 }
 
 .bigCheckbox {
@@ -593,11 +569,11 @@ img.ng-lazyloaded {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #01579b;
+  background: #7D6167;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #003e6e;
+  background: #6a5358;
 }

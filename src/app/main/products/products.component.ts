@@ -27,7 +27,7 @@ export class ProductsComponent implements OnInit {
 
   searchForm: FormControl = new FormControl('')
 
-  defaultImage = "../../../assets/images/boom-log-horizontal.jpg";
+  defaultImage = "../../../assets/images/haku-lazy-image.png";
 
   user:User = null
 

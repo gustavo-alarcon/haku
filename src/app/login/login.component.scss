@@ -1,8 +1,15 @@
 .login-parent {
-  background: url("../../assets/images/24multi-1920x1080.jpg");
+  background: url("../../assets/images/haku-login.jpg");
   background-size: cover;
-  background-position: center;
-  padding: 2vh 2%;
+  background-position: left;
+  // padding: 2vh 2%;
+  height: 100vh;
+}
+
+.transparency {
+  position: absolute;
+  right: 0px;
+  top: 0px;
   height: 100vh;
 }
 
@@ -12,12 +19,18 @@
   flex-direction: column;
   align-content: center;
   align-self: center;
-  background: white;
+  // background: white;
   border-radius: 10px;
+
+  &__large {
+    position: absolute;
+    right: 4%;
+    top: 15%;
+  }
 }
 
 .login-image {
-  background:#0B3471;
+  background: #0b3471;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -26,15 +39,11 @@
   padding: 1.5em 0em;
 }
 
-.login-card > * {
-  align-self: center;
-}
-
 .login-container {
   height: 100%;
   width: 100%;
   position: relative;
-  border: 4px solid #0B3471;
+  // border: 4px solid #0B3471;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -61,11 +70,18 @@
   padding: 1em;
 }
 
+.login-button {
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
 @media (max-width: 601px) {
   .login-parent {
-    background: url("../../assets/images/24multi-360x640.jpg");
+    // background: url("../../assets/images/24multi-360x640.jpg");
     background-size: contain;
     background-position: center;
   }
-
 }

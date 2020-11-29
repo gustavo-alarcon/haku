@@ -35,7 +35,7 @@
                         </div>
                     </ng-template>
                     <div style="padding-left: 24px; padding-right: 24px; margin-bottom: 16px;">
-                        <mat-divider></mat-divider>
+                        <mat-divider color="accent"></mat-divider>
                     </div>
                     <div class="w3-center w3-margin-bottom">
                         <mat-slide-toggle color="primary" (click)="themeService.toggleTheme()">
@@ -59,27 +59,28 @@
                             <mat-icon class="menu__icon">multiple_stop</mat-icon>
                             Logística
                         </button>
-                        <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller || user?.logistic"
-                            routerLink="products-list" state="Lista de productos" (click)="toggleSideMenu()">
+                        <button mat-button class="w3-block menu__button"
+                            *ngIf="user?.admin || user?.seller || user?.logistic" routerLink="products-list"
+                            state="Lista de productos" (click)="toggleSideMenu()">
                             <mat-icon class="menu__icon">widgets</mat-icon>
                             Lista de Productos
                         </button>
-                        <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller" routerLink="online-sales"
-                            (click)="toggleSideMenu()">
+                        <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller"
+                            routerLink="online-sales" (click)="toggleSideMenu()">
                             <mat-icon class="menu__icon">assignment</mat-icon>
                             Ventas online
                         </button>
-                        <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller" routerLink="store-sales"
-                            (click)="toggleSideMenu()">
+                        <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller"
+                            routerLink="store-sales" (click)="toggleSideMenu()">
                             <mat-icon class="menu__icon">assignment</mat-icon>
                             Ventas tienda
                         </button>
-                        <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller" routerLink="pos"
-                            (click)="toggleSideMenu()">
+                        <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller"
+                            routerLink="pos" (click)="toggleSideMenu()">
                             <mat-icon class="menu__icon">phonelink_ring</mat-icon>
                             Punto de venta
                         </button>
-                        
+
                         <mat-divider></mat-divider>
                         <button mat-button class="w3-block menu__button" routerLink="/main" (click)="toggleSideMenu()">
                             <mat-icon class="menu__icon">local_offer</mat-icon>
@@ -128,16 +129,16 @@
         </mat-sidenav>
 
         <mat-sidenav-content cdkScrollable>
-            <mat-toolbar class="main__toolbar">
-                <div class="w3-margin-right w3-text-white">
+            <mat-toolbar class="main__toolbar" color="primary">
+                <div class="w3-margin-right">
                     <button mat-icon-button (click)="toggleSideMenu()">
                         <mat-icon>menu</mat-icon>
                     </button>
                     <a class="w3-margin-left main__logo" routerLink="/main">
-                        <img src="../../assets/images/24multi-horizontal-logo.png" class="main__logoimage" alt="logo">
+                        <img src="../../assets/images/haku-horizontal-logo.png" class="main__logoimage" alt="logo">
                     </a>
                 </div>
-                <span class="toolbar_title">| <strong> {{title}}</strong></span>
+                <!-- <span class="toolbar_title">| <strong> {{title}}</strong></span> -->
                 <span style="flex: 1 1 auto;"></span>
             </mat-toolbar>
             <div class="main__space">
