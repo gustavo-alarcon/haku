@@ -104,19 +104,19 @@
 .meraki {
   width: 300px;
   padding: 25px 0 0 0;
-  position:relative;
+  position: relative;
 }
 
 .meraki__logo {
   width: 80px;
 }
 
-.main__space{
+.main__space {
   padding-top: 64px;
 }
 
 .toolbar_title {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 1em;
   font-weight: 500;
   color: white;
@@ -125,16 +125,16 @@
 @media (max-width: 601px) {
   .main__toolbar {
     // background: url("../../assets/images/toolbar_mini.png") no-repeat center;
-  //   background-size: cover;
-  //   background-color: #0B3471;
-  //   border-bottom: 7px solid #00245a;
+    //   background-size: cover;
+    //   background-color: #0B3471;
+    //   border-bottom: 7px solid #00245a;
   }
 
   .main__logoimage {
     max-height: 50px;
   }
 
-  .main__space{
+  .main__space {
     padding-top: 56px;
   }
 }

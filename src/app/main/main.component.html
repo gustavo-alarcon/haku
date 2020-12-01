@@ -46,49 +46,49 @@
                     <div class="menu" *ngIf="auth.user$ | async as user">
                         <button mat-button *ngIf="user.role == 'Administrador'" class="w3-block menu__button"
                             routerLink="configuration" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">settings</mat-icon>
+                            <mat-icon class="menu__icon icon-button">settings</mat-icon>
                             Configuración
                         </button>
                         <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller"
                             routerLink="customers" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">account_circle</mat-icon>
+                            <mat-icon class="menu__icon icon-button">account_circle</mat-icon>
                             Clientes
                         </button>
                         <button mat-button class="w3-block menu__button" *ngIf="user.admin || user?.logistic"
                             routerLink="logistics" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">multiple_stop</mat-icon>
+                            <mat-icon class="menu__icon icon-button">multiple_stop</mat-icon>
                             Logística
                         </button>
                         <button mat-button class="w3-block menu__button"
                             *ngIf="user?.admin || user?.seller || user?.logistic" routerLink="products-list"
                             state="Lista de productos" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">widgets</mat-icon>
+                            <mat-icon class="menu__icon icon-button">widgets</mat-icon>
                             Lista de Productos
                         </button>
                         <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller"
                             routerLink="online-sales" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">assignment</mat-icon>
+                            <mat-icon class="menu__icon icon-button">assignment</mat-icon>
                             Ventas online
                         </button>
                         <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller"
                             routerLink="store-sales" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">assignment</mat-icon>
+                            <mat-icon class="menu__icon icon-button">assignment</mat-icon>
                             Ventas tienda
                         </button>
                         <button mat-button class="w3-block menu__button" *ngIf="user?.admin || user?.seller"
                             routerLink="pos" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">phonelink_ring</mat-icon>
+                            <mat-icon class="menu__icon icon-button">phonelink_ring</mat-icon>
                             Punto de venta
                         </button>
 
                         <mat-divider></mat-divider>
                         <button mat-button class="w3-block menu__button" routerLink="/main" (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">local_offer</mat-icon>
+                            <mat-icon class="menu__icon icon-button">local_offer</mat-icon>
                             Productos
                         </button>
                         <button mat-button class="w3-block menu__button" routerLink="products-history"
                             (click)="toggleSideMenu()">
-                            <mat-icon class="menu__icon">shopping_cart</mat-icon>
+                            <mat-icon class="menu__icon icon-button">shopping_cart</mat-icon>
                             Historial
                         </button>
                         <p class="w3-margin-bottom"></p>
@@ -131,8 +131,8 @@
         <mat-sidenav-content cdkScrollable>
             <mat-toolbar class="main__toolbar" color="primary">
                 <div class="w3-margin-right">
-                    <button mat-icon-button (click)="toggleSideMenu()">
-                        <mat-icon>menu</mat-icon>
+                    <button mat-icon-button (click)="toggleSideMenu()" >
+                        <mat-icon class="icon-button">menu</mat-icon>
                     </button>
                     <a class="w3-margin-left main__logo" routerLink="/main">
                         <img src="../../assets/images/haku-horizontal-logo.png" class="main__logoimage" alt="logo">

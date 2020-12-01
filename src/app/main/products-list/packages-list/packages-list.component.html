@@ -51,7 +51,7 @@
     <div *ngIf="packagesTableDataSource.filteredData.length else default" class="w3-margin-top"
       style="border-radius: 10px 10px 10px 10px;">
       <div style="overflow:auto; border-radius: 10px 10px 0px 0px">
-        <table mat-table [dataSource]="packagesTableDataSource" matSort style="text-align: center !important; ">
+        <table mat-table [dataSource]="packagesTableDataSource" matSort style="text-align: center !important; width: 100%">
 
           <ng-container matColumnDef="index">
             <th *matHeaderCellDef style="font-size: 0.9em;padding:0px 1em; font-weight: 500; color: #828282;"
@@ -192,38 +192,38 @@
             <td style="padding:0px 24px" *matCellDef="let raw" class="w3-border-left w3-border-lightgrey">
               <mat-menu #rawMenu="matMenu">
                 <button class="w3-small" mat-menu-item (click)="onPromo(raw)">
-                  <mat-icon>local_offer</mat-icon> Promoción
+                  <mat-icon class="icon-button">local_offer</mat-icon> Promoción
                 </button>
                 <button class="w3-small" *ngIf="raw?.published else publish" mat-menu-item
                   (click)="onPublish(raw, false)">
-                  <mat-icon>visibility_off</mat-icon> Ocultar
+                  <mat-icon class="icon-button">visibility_off</mat-icon> Ocultar
                 </button>
                 <ng-template #publish>
                   <button class="w3-small" mat-menu-item (click)="onPublish(raw, true)">
-                    <mat-icon>visibility</mat-icon> Publicar
+                    <mat-icon class="icon-button">visibility</mat-icon> Publicar
                   </button>
                 </ng-template>
                 <div [matTooltipDisabled]="categorySelected" matTooltip="Primero seleccione una categoría">
                   <button class="w3-small" mat-menu-item (click)="increasePriority(raw)" [disabled]="!categorySelected">
-                    <mat-icon>add</mat-icon> Prioridad
+                    <mat-icon class="icon-button">add</mat-icon> Prioridad
                   </button>
                 </div>
                 <div [matTooltipDisabled]="categorySelected" matTooltip="Primero seleccione una categoría">
                   <button class="w3-small" mat-menu-item (click)="decreasePriority(raw)" [disabled]="!categorySelected"
                     [matTooltipDisabled]="categorySelected" matTooltip="Primero seleccione una categoría">
-                    <mat-icon>remove</mat-icon> Prioridad
+                    <mat-icon class="icon-button">remove</mat-icon> Prioridad
                   </button>
                 </div>
                 <button class="w3-small" mat-menu-item (click)="onCreateEditItem(true, raw)">
-                  <mat-icon>edit</mat-icon> Editar
+                  <mat-icon class="icon-button">edit</mat-icon> Editar
                 </button>
                 <button class="w3-small" mat-menu-item (click)="onDeleteItem(raw)">
-                  <mat-icon>delete</mat-icon> Borrar
+                  <mat-icon class="icon-button">delete</mat-icon> Borrar
                 </button>
               </mat-menu>
               <ng-container *ngIf="(auth.user$ | async) as user">
                 <button mat-icon-button [matMenuTriggerFor]="rawMenu" [disabled]="!user.admin">
-                  <mat-icon>more_vert</mat-icon>
+                  <mat-icon class="icon-button">more_vert</mat-icon>
                 </button>
               </ng-container>
             </td>

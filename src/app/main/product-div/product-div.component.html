@@ -57,7 +57,7 @@
                 <div *ngIf="!package">
                     <button *ngIf="product.realStock > product.sellMinimum" mat-mini-fab color='accent'
                         [disabled]="!stopBuy(product)" (click)="add(product)">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon class="icon-button">add</mat-icon>
                     </button>
                 </div>
                 <div *ngIf="package">
