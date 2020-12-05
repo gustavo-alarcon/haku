@@ -15,7 +15,7 @@
                     {{giveProductPrice(item)|number: '.2'}}
                 </div>
                 <div style="width: 10%;" *ngIf="modified">
-                    <button mat-icon-button color="primary" (click)="delete(ind)">
+                    <button mat-icon-button color="accent" (click)="delete(ind)" >
                         <mat-icon>remove_circle</mat-icon>
                     </button>
                 </div>
@@ -70,7 +70,7 @@
         </div>
     </div>
     <div style="display: flex; flex-direction: row-reverse; margin-top: 20px;">
-        <div class="ticket__total">
+        <div class="ticket__total" style=" background-color: #5E807F;">
             S/. {{total + delivery | number: '.2'}}
         </div>
     </div>
