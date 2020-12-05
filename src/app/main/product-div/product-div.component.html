@@ -1,13 +1,15 @@
-<mat-card *ngIf="product$ | async" [ngClass]="package?'product product--package w3-margin-bottom':'product product--product w3-margin-bottom'">
-    <div class="ms-flex product__container">
+<mat-card *ngIf="product$ | async"
+    [ngClass]="package?'product product--package w3-margin-bottom':'product product--product w3-margin-bottom'">
+    <div class="product__container">
         <div class="product__image-div">
             <img [defaultImage]="defaultImage" [lazyLoad]="product.photoURL" [offset]="100" class="product__image">
         </div>
         <div class="product__descrip">
             <div class="ms-flex product__container">
-                <div [ngClass]="package?'product__title':'product__title product__title--prod'">{{product.description | titlecase}}</div>
-
+                <div [ngClass]="package?'product__title':'product__title product__title--prod'">
+                    {{product.description | titlecase}}</div>
             </div>
+
             <div *ngIf="!package">
                 <div *ngIf="product.realStock <= product.sellMinimum" class="product__provision">
                     En abastecimiento</div>
@@ -16,63 +18,73 @@
                 <div *ngIf="packageDisabled(product)" class="product__provision">
                     En abastecimiento</div>
             </div>
+
             <p *ngIf="!package" class="product__paragraph product__paragraph--pack">
                 {{product.additionalDescription}}</p>
+
+            <div class="ms-fill"></div>
+
             <div *ngIf="package" class="product__choose ms-flex ms-flex--center">
                 <div style="width: 100%;">
                     <div *ngFor="let item of product['items']">
                         <div class="product__select" style="border-color: silver;"
                             *ngIf="item['productsOptions'].length == 1">
-                            {{item['productsOptions'][0]['quantity']}} x {{item['productsOptions'][0]['description'] | titlecase}}
+                            {{item['productsOptions'][0]['quantity']}} x
+                            {{item['productsOptions'][0]['description'] | titlecase}}
                         </div>
                         <mat-select class="product__select" *ngIf="item['productsOptions'].length > 1"
                             [(value)]="item['choose']">
-                            <mat-option *ngFor="let status of item['productsOptions']" [value]="status" [disabled]="optionDisabled(status)">
+                            <mat-option *ngFor="let status of item['productsOptions']" [value]="status"
+                                [disabled]="optionDisabled(status)">
                                 {{status['quantity']}} x {{status['description'] | titlecase}}
                             </mat-option>
                         </mat-select>
-    
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="!package" class="product__etiquet">Precio por {{product.unit.description}} 
-            </div>
-            <div class="ms-flex product__container">
-                <div>
-                    <div class="ms-flex" style="align-items: flex-end;">
 
-                        <div *ngIf="!product.promo || product.promoData.quantity > 1" class="product__price">
-                            <span style="font-size: 0.65em">S/. </span>
-                            <span>{{product.price | number: '.2'}}</span>
-                        </div>
-                        <div *ngIf="product.promo && product.promoData.quantity == 1" class="product__price">
-                            <span style="font-size: 0.65em">S/. </span>
-                            <span>{{product.promoData.promoPrice | number: '.2'}}</span>
-                        </div>
-                        <div class="product__percent" *ngIf="product.promo && product.promoData.quantity == 1">
-                            -{{getdiscount(product)}}%
-                        </div>
                     </div>
                 </div>
-                <div *ngIf="!package">
-                    <button *ngIf="product.realStock > product.sellMinimum" mat-mini-fab color='accent'
-                        [disabled]="!stopBuy(product)" (click)="add(product)">
-                        <mat-icon class="icon-button">add</mat-icon>
-                    </button>
+            </div>
+            <div>
+                <div *ngIf="!package" class="product__etiquet">Precio por {{product.unit.description}}</div>
+                <div class="ms-flex">
+                    <div>
+                        <div class="ms-flex" style="align-items: flex-end;">
+
+                            <div *ngIf="!product.promo || product.promoData.quantity > 1" class="product__price">
+                                <span style="font-size: 0.65em">S/. </span>
+                                <span>{{product.price | number: '.2'}}</span>
+                            </div>
+                            <div *ngIf="product.promo && product.promoData.quantity == 1" class="product__price">
+                                <span style="font-size: 0.65em">S/. </span>
+                                <span>{{product.promoData.promoPrice | number: '.2'}}</span>
+                            </div>
+                            <div class="product__percent" *ngIf="product.promo && product.promoData.quantity == 1">
+                                -{{getdiscount(product)}}%
+                            </div>
+                        </div>
+                    </div>
+                    <span class="ms-fill"></span>
+                    <div *ngIf="!package">
+                        <button *ngIf="product.realStock > product.sellMinimum" mat-mini-fab color='accent'
+                            [disabled]="!stopBuy(product)" (click)="add(product)">
+                            <mat-icon class="icon-button">add</mat-icon>
+                        </button>
+                    </div>
+                    <div *ngIf="package">
+                        <button *ngIf="!packageDisabled(product)" mat-mini-fab color='accent'
+                            [disabled]="!stopBuy(product)" (click)="add(product)">
+                            <mat-icon class="icon-button">add</mat-icon>
+                        </button>
+                    </div>
                 </div>
-                <div *ngIf="package">
-                    <button *ngIf="!packageDisabled(product)" mat-mini-fab color='accent' [disabled]="!stopBuy(product)" (click)="add(product)">
-                        <mat-icon>add</mat-icon>
-                    </button>
+                <div *ngIf="product.promo && product.promoData.quantity > 1" class="w3-center product__promo">
+                    OFERTA: {{product.promoData.quantity}} x S/.
+                    {{product.promoData.promoPrice | number: '.2'}}
+                </div>
+                <div *ngIf="product.promo && product.promoData.quantity == 1" class="product__priceBefore">
+                    Antes S/. {{product.price | number: '.2'}}
                 </div>
             </div>
-            <div *ngIf="product.promo && product.promoData.quantity > 1" class="w3-center product__promo">
-                OFERTA: {{product.promoData.quantity}} x S/.
-                {{product.promoData.promoPrice | number: '.2'}}
-            </div>
-            <div *ngIf="product.promo && product.promoData.quantity == 1"  class="product__priceBefore">
-                Antes S/. {{product.price | number: '.2'}}
-            </div>
+
         </div>
     </div>
 </mat-card>
