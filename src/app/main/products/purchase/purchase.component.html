@@ -2,7 +2,7 @@
 <div *ngIf="init$ | async">
     <p *ngIf="userData$ | async"></p>
     <mat-horizontal-stepper linear #stepper class="ms-stepper">
-        <mat-step label="📝" [stepControl]="firstFormGroup" [completed]="firstFormGroup.valid">
+        <mat-step label="📝" [stepControl]="firstFormGroup" [completed]="firstFormGroup.valid" color="accent">
             <h2 class="subtitle">Datos personales</h2>
             <form [formGroup]="firstFormGroup">
                 <mat-form-field class="w3-block" appearance="outline">

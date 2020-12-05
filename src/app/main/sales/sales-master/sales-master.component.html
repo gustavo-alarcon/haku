@@ -1,44 +1,43 @@
 <div *ngIf="sales$ | async as sales else noSales">
-  <!-- Actions form -->
-  <div class="actionsContainer formFieldRounded"
-    style="margin-right: 16px;">
-      <mat-form-field class="content" appearance="outline">
-          <input readonly matInput placeholder="FECHA / PERIODO" [formControl]="date" [satDatepicker]="picker">
-          <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
-          <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
-      </mat-form-field>
-      <mat-form-field class="content w3-small" appearance="outline">
-          <mat-icon matPrefix></mat-icon>
-          <mat-label>Estado</mat-label>
-          <mat-select [formControl]="statusForm">
-              <mat-option value="Todos">Todos</mat-option>
-              <mat-option *ngFor="let stat of status" [value]="stat">
-                  {{stat}}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-      <ng-container *ngIf="salesFiltered$ | async as salesFiltered">
-          <button (click)="downloadXls(salesFiltered)" mat-raised-button [disabled]="!salesFiltered.length"
-              color="accent" type="button" class="content">
-              Descargar Excel
-          </button>
-      </ng-container>
-      <mat-form-field hintLabel="Correlativo, nombre, apellido, correo o DNI" class="search" appearance="outline">
-          <mat-icon matPrefix>search</mat-icon>
-          <input matInput placeholder="Buscar" [formControl]="search" autocomplete="off">
-          <mat-hint align="end"><strong>{{(salesFiltered$ | async)?.length}}</strong> resultados</mat-hint>
-      </mat-form-field>
-  </div>
-  <!-- <div class="actionsContainer formFieldRounded"
+    <!-- Actions form -->
+    <div class="actionsContainer formFieldRounded" style="margin-right: 16px;">
+        <mat-form-field class="content" appearance="outline">
+            <input readonly matInput placeholder="FECHA / PERIODO" [formControl]="date" [satDatepicker]="picker">
+            <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+        </mat-form-field>
+        <mat-form-field class="content w3-small" appearance="outline">
+            <mat-icon matPrefix></mat-icon>
+            <mat-label>Estado</mat-label>
+            <mat-select [formControl]="statusForm">
+                <mat-option value="Todos">Todos</mat-option>
+                <mat-option *ngFor="let stat of status" [value]="stat">
+                    {{stat}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="salesFiltered$ | async as salesFiltered">
+            <button (click)="downloadXls(salesFiltered)" mat-raised-button [disabled]="!salesFiltered.length"
+                color="accent" type="button" class="content">
+                Descargar Excel
+            </button>
+        </ng-container>
+        <mat-form-field hintLabel="Correlativo, nombre, apellido, correo o DNI" class="search" appearance="outline">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput placeholder="Buscar" [formControl]="search" autocomplete="off">
+            <mat-hint align="end"><strong>{{(salesFiltered$ | async)?.length}}</strong> resultados</mat-hint>
+        </mat-form-field>
+    </div>
+    <!-- <div class="actionsContainer formFieldRounded"
     style="margin-right: 16px;">
       
   </div> -->
 
 
-  <ng-container *ngIf="salesFiltered$ | async as salesFiltered">
-      <ng-container *ngIf="salesFiltered.length else noSales">
+    <ng-container *ngIf="salesFiltered$ | async as salesFiltered">
+        <ng-container *ngIf="salesFiltered.length else noSales">
 
-        <!-- <div *ngFor="let sale of salesFiltered | paginate: { itemsPerPage: 10, currentPage: p }"
+            <!-- <div *ngFor="let sale of salesFiltered | paginate: { itemsPerPage: 10, currentPage: p }"
             class="list-parent-container "
             [class.shadow-color]="(detailSubject | async)?.id == sale.id">
 
@@ -99,133 +98,124 @@
           </div>
         </div> -->
 
-        <div *ngFor="let sale of salesFiltered | paginate: { itemsPerPage: 10, currentPage: p }"
-            class="list-parent-container "
-            [class.shadow-color]="(detailSubject | async)?.id == sale.id">
+            <div *ngFor="let sale of salesFiltered | paginate: { itemsPerPage: 10, currentPage: p }"
+                class="list-parent-container " [class.shadow-color]="(detailSubject | async)?.id == sale.id">
 
-          <div matRipple class="list-container background-color" (click)="onSelectDetail(sale, salesFiltered)">
-                <div class="general">
-                    <div style="font-size: 24px;">
-                        <b>#{{sale.correlativeType}}{{getCorrelative(sale.correlative)}}</b>
-                    </div>
-                    <div class="overflow_container" style="width:100%">
-                        <mat-icon style="font-size:20px;"
-                            color="primary">assignment_ind</mat-icon>
-                        <span *ngIf="sale.attendedData else noAttended">
-                            <ng-container *ngIf="sale.attendedData.attendedBy.name else displayName">
-                                {{sale.attendedData.attendedBy.name+" "+sale.attendedData.attendedBy?.lastName1}}
-                            </ng-container>
-                            <ng-template #displayName>
-                                {{sale.attendedData.attendedBy?.displayName}}
+                <div matRipple class="list-container background-color" (click)="onSelectDetail(sale, salesFiltered)">
+                    <div class="general">
+                        <div style="font-size: 24px;">
+                            <b>#{{sale.correlativeType}}{{getCorrelative(sale.correlative)}}</b>
+                        </div>
+                        <div class="overflow_container" style="width:100%">
+                            <mat-icon style="font-size:20px;" color="accent">assignment_ind</mat-icon>
+                            <span *ngIf="sale.attendedData else noAttended">
+                                <ng-container *ngIf="sale.attendedData.attendedBy.name else displayName">
+                                    {{sale.attendedData.attendedBy.name+" "+sale.attendedData.attendedBy?.lastName1}}
+                                </ng-container>
+                                <ng-template #displayName>
+                                    {{sale.attendedData.attendedBy?.displayName}}
+                                </ng-template>
+                            </span>
+                            <ng-template #noAttended>
+                                <span>Sin Atender</span>
                             </ng-template>
-                        </span>
-                        <ng-template #noAttended>
-                            <span>Sin Atender</span>
-                        </ng-template>
-                    </div>
-                    <div matTooltip="Fecha Solicitada">
-                        <mat-icon style="font-size:20px;"
-                            color="primary">assignment_turned_in</mat-icon>
-                        {{sale.createdAt['seconds']*1000 | date:'dd/MM/yyyy'}} <small>{{sale.createdAt['seconds']*1000 | date:'h:mm a'}}</small>
-                    </div>
-                    <div matTooltip="Fecha Asignada">
-                        <mat-icon style="font-size:20px;"
-                            color="primary">directions_bike</mat-icon>
-                        <span *ngIf="sale.confirmedRequestData else noConfirmedRequest">
-                            {{sale.confirmedRequestData?.assignedDate['seconds']*1000 | date:'dd/MM/yyyy'}}
-                        </span>
-                        <ng-template #noConfirmedRequest>
-                            <span>"---"</span>
-                        </ng-template>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <div class="client">
-                    <div class="overflow_container">
-                        <mat-icon>group</mat-icon>
-                        <b *ngIf="sale.user else noUser"> 
-                            <ng-container *ngIf="sale.user?.name else userDisplayName">
-                                {{sale.user.name+" "+sale.user?.lastName1}}
-                            </ng-container>
-                            <ng-template #userDisplayName>
-                                {{sale.user?.displayName}}
+                        </div>
+                        <div matTooltip="Fecha Solicitada">
+                            <mat-icon style="font-size:20px;" color="accent">widgets</mat-icon>
+                            {{sale.createdAt['seconds']*1000 | date:'dd/MM/yyyy'}}
+                            <small>{{sale.createdAt['seconds']*1000 | date:'h:mm a'}}</small>
+                        </div>
+                        <div matTooltip="Fecha Asignada">
+                            <mat-icon style="font-size:20px;" color="accent">directions_bike</mat-icon>
+                            <span *ngIf="sale.confirmedRequestData else noConfirmedRequest">
+                                {{sale.confirmedRequestData?.assignedDate['seconds']*1000 | date:'dd/MM/yyyy'}}
+                            </span>
+                            <ng-template #noConfirmedRequest>
+                                <span>"---"</span>
                             </ng-template>
-                        </b>
-                        <ng-template #noUser>
-                            <b>Sin Nombre</b>
-                        </ng-template>
+                        </div>
                     </div>
-                    <div class="overflow_container">
-                        <mat-icon>chrome_reader_mode</mat-icon>
-                        <b *ngIf="sale.user?.dni else noNumber">
-                            {{sale.user.dni}}
-                        </b>
-                        <ng-template #noNumber>
-                            <b>00000000</b>
-                        </ng-template>
-                    </div>
-                    <div class="overflow_container">
-                        <mat-icon>mail</mat-icon>
-                        <b *ngIf="sale.user?.email else noMail">
-                            {{sale.user?.email}}
-                        </b>
-                        <ng-template #noMail>
-                            <b>Sin correo</b>
-                        </ng-template>
-                    </div>
-                    <div class="actions-container">
-                        <button class="actions" color="accent" 
-                            (click)="onCheckDirection(sale, $event)"
-                            mat-raised-button type=button>
-                            <mat-icon>place</mat-icon>
-                        </button>
-                        <a class="actions" [href]="'tel:'+sale.location.phone"
-                            (click)="$event.stopPropagation()">
-                            <button style="width:100%" color="accent" 
+                    <div class="divider"></div>
+                    <div class="client">
+                        <div class="overflow_container">
+                            <mat-icon>group</mat-icon>
+                            <b *ngIf="sale.user else noUser">
+                                <ng-container *ngIf="sale.user?.name else userDisplayName">
+                                    {{sale.user.name+" "+sale.user?.lastName1}}
+                                </ng-container>
+                                <ng-template #userDisplayName>
+                                    {{sale.user?.displayName}}
+                                </ng-template>
+                            </b>
+                            <ng-template #noUser>
+                                <b>Sin Nombre</b>
+                            </ng-template>
+                        </div>
+                        <div class="overflow_container">
+                            <mat-icon>chrome_reader_mode</mat-icon>
+                            <b *ngIf="sale.user?.dni else noNumber">
+                                {{sale.user.dni}}
+                            </b>
+                            <ng-template #noNumber>
+                                <b>00000000</b>
+                            </ng-template>
+                        </div>
+                        <div class="overflow_container">
+                            <mat-icon>mail</mat-icon>
+                            <b *ngIf="sale.user?.email else noMail">
+                                {{sale.user?.email}}
+                            </b>
+                            <ng-template #noMail>
+                                <b>Sin correo</b>
+                            </ng-template>
+                        </div>
+                        <div class="actions-container">
+                            <button class="actions" color="accent" (click)="onCheckDirection(sale, $event)"
                                 mat-raised-button type=button>
-                                <mat-icon>local_phone</mat-icon>
+                                <mat-icon>place</mat-icon>
                             </button>
-                        </a>
+                            <a class="actions" [href]="'tel:'+sale.location.phone" (click)="$event.stopPropagation()">
+                                <button style="width:100%" color="accent" mat-raised-button type=button>
+                                    <mat-icon>local_phone</mat-icon>
+                                </button>
+                            </a>
 
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="status">
+                        <div class="overflow_container">
+                            <b *ngIf="sale.confirmedDocumentData  else noDocument">
+                                {{sale.document |titlecase}}{{" "+ sale.confirmedDocumentData.documentNumber}}
+                            </b>
+                            <ng-template #noDocument>
+                                <b>Agregar Comprobante</b>
+                            </ng-template>
+                        </div>
+                        <button style="overflow: auto; background-color: #CFBCDF;" mat-flat-button type=button>
+                            <b>{{sale.status}}</b>
+                        </button>
+                        <button color="accent" mat-flat-button type=button>
+                            <b>{{(giveTotalPrice(sale) + sale.deliveryPrice) | currency:'S/.'}}</b>
+                        </button>
                     </div>
                 </div>
-                <div class="divider"></div>
-                <div class="status">
-                    <div class="overflow_container">
-                        <b *ngIf="sale.confirmedDocumentData  else noDocument">
-                            {{sale.document |titlecase}}{{" "+ sale.confirmedDocumentData.documentNumber}}
-                        </b>
-                        <ng-template #noDocument>
-                            <b>Agregar Comprobante</b>
-                        </ng-template>
-                    </div>
-                    <button color="accent" 
-                        style="overflow: auto;"
-                        mat-flat-button type=button>
-                        <b>{{sale.status}}</b>
-                    </button>
-                    <button color="primary"
-                         mat-flat-button type=button>
-                        <b>{{(giveTotalPrice(sale) + sale.deliveryPrice) | currency:'S/.'}}</b>
-                    </button>
-                </div>
-          </div>
-        </div>
+            </div>
 
-          <div style="display:flex; flex-direction: row; justify-content: center;">
-              <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel="" maxSize="6">
-              </pagination-controls>
-          </div>
-      </ng-container>
+            <div style="display:flex; flex-direction: row; justify-content: center;">
+                <pagination-controls (pageChange)="p = $event" previousLabel="" nextLabel="" maxSize="6">
+                </pagination-controls>
+            </div>
+        </ng-container>
 
-  </ng-container>
+    </ng-container>
 
 </div>
 
 <ng-template #noSales>
-  <div class="w3-container w3-center  w3-round-large mat-elevation-z8 w3-margin-top w3-margin-bottom">
-      <h2 style="font-family: Raleway; color: dimgray">
-          No hay resultados
-      </h2>
-  </div>
+    <div class="w3-container w3-center  w3-round-large mat-elevation-z8 w3-margin-top w3-margin-bottom">
+        <h2 style="font-family: Raleway; color: dimgray">
+            No hay resultados
+        </h2>
+    </div>
 </ng-template>

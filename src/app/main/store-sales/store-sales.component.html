@@ -13,7 +13,7 @@
             <div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center;">
 
                 <ng-container *ngIf="auth.user$ | async as user">
-                    <div *ngIf="user.admin || user.accountant" color="primary" class="totalPrice">
+                    <div *ngIf="user.admin || user.accountant" class="totalPrice" style="background-color: #5E807F;">
                         {{totalPrice$ | async | currency:"S/."}}</div>
                 </ng-container>
 
@@ -74,7 +74,8 @@
                             <div class="column">
                                 <span class="header"></span><br>
                                 <span class="header">Importe ({{ticket.paymentMethod?.name}})</span><br>
-                                <span class="body w3-small price">{{ticket.ticket.total | currency : 'S/.'}}</span>
+                                <span class="body w3-small price"
+                                    style="background-color: #5E807F;">{{ticket.ticket.total | currency : 'S/.'}}</span>
                             </div>
                         </div>
 
@@ -161,7 +162,7 @@
                                     <div class="column">
                                         <span class="header">Importe: </span><br>
                                         <span
-                                            class="body w3-small price">{{actualTicket.ticket.total | currency : 'S/.'}}</span>
+                                            class="body w3-small price" style="background-color: #5E807F;">{{actualTicket.ticket.total | currency : 'S/.'}}</span>
                                     </div>
                                 </div>
                                 <mat-divider></mat-divider>
@@ -301,7 +302,7 @@
                                 <div class="column">
                                     <span class="header">Importe: </span><br>
                                     <span
-                                        class="body w3-small price">{{actualTicket.ticket.total | currency : 'S/.'}}</span>
+                                        class="body w3-small price" style="background-color: #5E807F;">{{actualTicket.ticket.total | currency : 'S/.'}}</span>
                                 </div>
                             </div>
                             <mat-divider></mat-divider>
