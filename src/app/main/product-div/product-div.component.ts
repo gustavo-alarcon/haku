@@ -24,7 +24,7 @@ export class ProductDivComponent implements OnInit {
   @Input() id: string;
   @Input() maxWeight: number;
   @Input() buttonAdd: boolean;
-  defaultImage = "../../../assets/images/24multi-vertical-logo.png";
+  defaultImage = "../../../assets/images/haku-lazy-image.png";
 
   product$: Observable<any>;
   product: Product;
