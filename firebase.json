@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/24multiservicios",
+    "public": "dist/haku",
     "ignore": [
       "firebase.json",
       "**/.*",

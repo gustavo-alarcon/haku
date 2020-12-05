@@ -25,14 +25,14 @@
                     </button>
                 </div>
                 <div *ngIf="categoryList$ | async as categories" class="w3-margin-bottom w3-hide-small">
-                    <button mat-stroked-button *ngFor="let category of categories" color="primary"
+                    <button mat-stroked-button *ngFor="let category of categories" color="accent"
                         [ngClass]="category['select']?'green category':'category'" (click)="navigate(category['name'])">
                         {{category['name'] | titlecase}}</button>
                 </div>
                 <mat-divider class="w3-margin-bottom w3-hide-small"></mat-divider>
                 <div *ngIf="products$ | async as products; else load">
                     <div *ngIf="products.length > 0; else noResult" class="ms-flex"
-                        style="justify-content: space-evenly;">
+                        style="justify-content: start;">
                         <app-product-div [id]="product.id" [buttonAdd]="true" [maxWeight]="maxWeight"
                             [package]="product.package?true:false"
                             *ngFor="let product of products| paginate: { itemsPerPage: 12, currentPage: p }"

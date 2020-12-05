@@ -16,7 +16,7 @@ export class CategoriesComponent implements OnInit {
   loadingCategories = new BehaviorSubject<boolean>(true);
   loadingCategories$ = this.loadingCategories.asObservable();
 
-  defaultImage = "../../../assets/images/24multi-round-text-logo.png";
+  defaultImage = "../../../assets/images/haku-lazy-image.png";
 
   constructor(
     private router: Router,

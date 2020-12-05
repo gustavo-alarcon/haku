@@ -5,14 +5,14 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyCSNxQl5vzO8HtXi6hBVBhbuaEh7AdBmSo",
-    authDomain: "multiservicios-a0da2.firebaseapp.com",
-    databaseURL: "https://multiservicios-a0da2.firebaseio.com",
-    projectId: "multiservicios-a0da2",
-    storageBucket: "multiservicios-a0da2.appspot.com",
-    messagingSenderId: "38580554580",
-    appId: "1:38580554580:web:d5acf83cabe7ca05e1d6c1",
-    measurementId: "G-QY315V8XZF"
+    apiKey: "AIzaSyCHF95SkUfajIAF7tLn9_l8M6jI7EtD93o",
+    authDomain: "hakumasasartesanales.firebaseapp.com",
+    databaseURL: "https://hakumasasartesanales.firebaseio.com",
+    projectId: "hakumasasartesanales",
+    storageBucket: "hakumasasartesanales.appspot.com",
+    messagingSenderId: "1082138609884",
+    appId: "1:1082138609884:web:f23e43e470ae0559e40c19",
+    measurementId: "G-CVJC6MHW27"
   }
 };
 

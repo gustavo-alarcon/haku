@@ -41,7 +41,7 @@ export class PosSavingComponent implements OnInit {
 
   save(): any {
     // Create a reference for a new rating, for use inside the transaction
-    let productListRef = this.af.firestore.collection('db/24multiservicios/productsList');
+    let productListRef = this.af.firestore.collection('db/haku/productsList');
 
     let transactionsArray = [];
 
@@ -94,14 +94,14 @@ export class PosSavingComponent implements OnInit {
 
         this.auth.user$.pipe(take(1))
           .subscribe(user => {
-            let configRef = this.af.firestore.doc('/db/24multiservicios/config/generalConfig');
+            let configRef = this.af.firestore.doc('/db/haku/config/generalConfig');
 
             this.af.firestore.runTransaction(t => {
               return t.get(configRef)
                 .then(doc => {
                   let newCorr = doc.data().correlativeStore + 1;
 
-                  let saleDocRef = this.af.firestore.collection('/db/24multiservicios/storeSales').doc();
+                  let saleDocRef = this.af.firestore.collection('/db/haku/storeSales').doc();
 
                   let newData = {
                     id: saleDocRef.id,

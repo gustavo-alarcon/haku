@@ -119,7 +119,7 @@ export class CreatePayComponent implements OnInit {
   }
 
   createBanner(typePay, photo?: File) {
-    const payRef: DocumentReference = this.afs.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
+    const payRef: DocumentReference = this.afs.firestore.collection(`/db/haku/config/`).doc('generalConfig');
 
     typePay.photoURL = null;
 
@@ -155,7 +155,7 @@ export class CreatePayComponent implements OnInit {
   }
 
   editBanner(typePay, photo?: File) {
-    const payRef: DocumentReference = this.afs.firestore.collection(`/db/24multiservicios/config/`).doc('generalConfig');
+    const payRef: DocumentReference = this.afs.firestore.collection(`/db/haku/config/`).doc('generalConfig');
 
     if (photo) {
       concat(

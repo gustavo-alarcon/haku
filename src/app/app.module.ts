@@ -47,7 +47,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig, "24multiservicios"),
+    AngularFireModule.initializeApp(environment.firebaseConfig, "haku"),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
@@ -58,7 +58,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
     MatDividerModule,
     MatIconModule,
     LocalStorageModule.forRoot({
-      prefix: '24multiservicios',
+      prefix: 'haku',
       storageType: 'localStorage'
     })
   ],

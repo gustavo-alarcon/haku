@@ -102,8 +102,8 @@ export class ProductEntryComponent implements OnInit {
 
           console.log(this.itemsFilterForm.value.id);
 
-          let prodRef = this.af.firestore.collection('/db/24multiservicios/productsList').doc(this.itemsFilterForm.value.id);
-          let entriesRef = this.af.firestore.collection('/db/24multiservicios/productsEntries');
+          let prodRef = this.af.firestore.collection('/db/haku/productsList').doc(this.itemsFilterForm.value.id);
+          let entriesRef = this.af.firestore.collection('/db/haku/productsEntries');
           let entryRef = entriesRef.doc();
 
           return t.get(prodRef)

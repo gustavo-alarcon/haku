@@ -53,7 +53,7 @@ export class PackagesListComponent implements OnInit {
 
 
   //Variables
-  defaultImage = "../../../assets/images/24multi-vertical-logo.png";
+  defaultImage = "../../../assets/images/haku-lazy-image.png";
 
   //noResult
   noResult$: Observable<string>;
