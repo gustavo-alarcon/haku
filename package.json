@@ -1,6 +1,6 @@
 {
   "name": "haku",
-  "version": "1.0.2r",
+  "version": "1.0.3r",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
